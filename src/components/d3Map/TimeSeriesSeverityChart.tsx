@@ -18,7 +18,7 @@ type Props = {
 
 export const TimeSeriesSeverityChart: React.FC<Props> = ({
   data,
-  width = 800,
+  width = 600,
   height = 400,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -61,12 +61,6 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
       .domain(["Total", "Critical", "High", "Medium", "Low"])
       .range(["#000000", "#d32f2f", "#f57c00", "#1976d2", "#388e3c"]);
 
-    // Line generator
-    const line = d3
-      .line<DataPoint>()
-      .x((d) => x(d.time))
-      .y((d) => y(d.Total));
-
     // Define series
     const series = [
       { key: "Total", label: "Total Events" },
@@ -78,17 +72,41 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
 
     // Draw lines
     series.forEach((s) => {
-      const lineGen = d3
-        .line<DataPoint>()
-        .x((d) => x(d.time))
-        .y((d) => y(d[s.key]));
+      if (data.length === 1) {
+        const xPos = x(data[0].time);
+        const yPos = y(data[0][s.key]);
+        // Only draw if value > 0
+        if (data[0][s.key] > 0) {
+          // Draw horizontal line from axis (y=0) to the point
+          g.append("line")
+            .attr("x1", x(x.domain()[0]))
+            .attr("x2", xPos)
+            .attr("y1", y.domain()[0])
+            .attr("y2", yPos)
+            .attr("stroke", color(s.key) as string)
+            .attr("stroke-width", s.key === "Total" ? 3 : 2);
 
-      g.append("path")
-        .datum(data)
-        .attr("fill", "none")
-        .attr("stroke", color(s.key) as string)
-        .attr("stroke-width", s.key === "Total" ? 3 : 2)
-        .attr("d", lineGen);
+          // Draw dot at the data point
+          g.append("circle")
+            .attr("cx", xPos)
+            .attr("cy", yPos)
+            .attr("r", 5)
+            .attr("fill", color(s.key) as string);
+        }
+      } else {
+        // Draw the line for multiple points
+        const lineGen = d3
+          .line<DataPoint>()
+          .x((d) => x(d.time))
+          .y((d) => y(d[s.key]));
+
+        g.append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", color(s.key) as string)
+          .attr("stroke-width", s.key === "Total" ? 3 : 2)
+          .attr("d", lineGen);
+      }
     });
 
     // X axis
@@ -112,31 +130,51 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
       .text("Event Count");
-
-    // Legend
-    const legend = g
-      .append("g")
-      .attr("transform", `translate(${innerWidth + 20},0)`);
-
-    series.forEach((s, i) => {
-      const row = legend
-        .append("g")
-        .attr("transform", `translate(0,${i * 20})`);
-
-      row
-        .append("rect")
-        .attr("width", 12)
-        .attr("height", 12)
-        .attr("fill", color(s.key) as string);
-
-      row
-        .append("text")
-        .attr("x", 18)
-        .attr("y", 10)
-        .attr("font-size", "12px")
-        .text(s.label);
-    });
   }, [data, width, height]);
 
-  return <svg ref={svgRef}></svg>;
+  if (!data || data.length === 0) {
+    return <div>No data available</div>;
+  }
+
+  // Severity legend below chart
+  const legendItems = [
+    { key: "Total", label: "Total Events", color: "#000000" },
+    { key: "Critical", label: "Critical", color: "#d32f2f" },
+    { key: "High", label: "High", color: "#f57c00" },
+    { key: "Medium", label: "Medium", color: "#1976d2" },
+    { key: "Low", label: "Low", color: "#388e3c" },
+  ];
+
+  return (
+    <div>
+      <svg ref={svgRef}></svg>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 24,
+          marginTop: 16,
+        }}
+      >
+        {legendItems.map((item) => (
+          <div
+            key={item.key}
+            style={{ display: "flex", alignItems: "center", gap: 6 }}
+          >
+            <span
+              style={{
+                width: 16,
+                height: 16,
+                background: item.color,
+                display: "inline-block",
+                borderRadius: 3,
+                marginRight: 4,
+              }}
+            />
+            <span style={{ fontSize: 14 }}>{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };

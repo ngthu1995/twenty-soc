@@ -3,6 +3,15 @@ import { TimeSeriesSeverityChart } from "./d3Map/TimeSeriesSeverityChart";
 import { Box } from "@mui/material";
 import { useFilters } from "../FilterContext";
 import { useMemo } from "react";
+import { aggregateEventsByHour } from "../utils";
+
+type SecurityEvent = {
+  id: string;
+  source: string;
+  severity: "Critical" | "High" | "Medium" | "Low";
+  timestamp: string; // ISO string
+  // Add other relevant fields as needed
+};
 
 type DashboardProps = {
   loading: boolean;
@@ -78,6 +87,29 @@ export const Dashboard = (props: DashboardProps) => {
     };
   }, [data, filteredEvents, activeFilterColumns, selectedEvents]);
 
+  const eventTimeline = useMemo(() => {
+    if (filteredEvents.length === 0) return [];
+
+    // Only include events with valid severity values
+    const validSeverities = ["Critical", "High", "Medium", "Low"] as const;
+    const filteredSecurityEvents = filteredEvents.filter((e) =>
+      validSeverities.includes(e.severity as SecurityEvent["severity"])
+    ) as SecurityEvent[];
+
+    if (
+      !activeFilterColumns.source &&
+      !activeFilterColumns.eventType &&
+      !activeFilterColumns.severity &&
+      !activeFilterColumns.startDate &&
+      !activeFilterColumns.endDate
+    ) {
+      return aggregateEventsByHour(filteredSecurityEvents || []);
+    }
+    return aggregateEventsByHour(filteredSecurityEvents);
+  }, [data, filteredEvents, activeFilterColumns]);
+
+  console.log("🚀 ~ Dashboard ~ eventTimeline:", eventTimeline);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
   return (
@@ -86,34 +118,8 @@ export const Dashboard = (props: DashboardProps) => {
         countriesData={geoData.countriesData}
         activeCountries={geoData.activeCountries}
       />
-      <TimeSeriesSeverityChart
-        data={[
-          {
-            time: new Date("2025-04-22T00:00:00Z"),
-            Critical: 2,
-            High: 3,
-            Medium: 1,
-            Low: 1,
-            Total: 7,
-          },
-          {
-            time: new Date("2025-04-22T01:00:00Z"),
-            Critical: 1,
-            High: 4,
-            Medium: 1,
-            Low: 0,
-            Total: 6,
-          },
-          {
-            time: new Date("2025-04-22T02:00:00Z"),
-            Critical: 1,
-            High: 2,
-            Medium: 3,
-            Low: 0,
-            Total: 6,
-          },
-        ]}
-      />
+
+      <TimeSeriesSeverityChart data={eventTimeline} />
     </Box>
   );
 };

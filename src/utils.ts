@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 // Convert snake_case string to camelCase
 function toCamel(str: string): string {
   return str.replace(/([-_][a-z])/gi, (s) =>
@@ -32,3 +34,50 @@ export const eventTypeOptions = [
   "DDoS",
   "Unauthorized Access",
 ];
+
+type SecurityEvent = {
+  timestamp: string; // ISO string
+  severity: "Critical" | "High" | "Medium" | "Low";
+  // ...other fields
+};
+
+type TimeSeriesBucket = {
+  time: Date;
+  Total: number;
+  Critical: number;
+  High: number;
+  Medium: number;
+  Low: number;
+};
+
+export function aggregateEventsByHour(
+  events: SecurityEvent[]
+): TimeSeriesBucket[] {
+  const buckets: { [hour: string]: TimeSeriesBucket } = {};
+
+  events.forEach((event) => {
+    const date = dayjs(event.timestamp);
+    // Get hour bucket start time
+    const hourStart = date.startOf("hour");
+    const hourKey = hourStart.format("YYYY-MM-DD HH:00");
+
+    if (!buckets[hourKey]) {
+      buckets[hourKey] = {
+        time: hourStart.toDate(),
+        Total: 0,
+        Critical: 0,
+        High: 0,
+        Medium: 0,
+        Low: 0,
+      };
+    }
+
+    buckets[hourKey].Total += 1;
+    buckets[hourKey][event.severity] += 1;
+  });
+
+  // Return sorted array by time
+  return Object.values(buckets).sort(
+    (a, b) => a.time.getTime() - b.time.getTime()
+  );
+}

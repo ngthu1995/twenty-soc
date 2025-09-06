@@ -1,0 +1,492 @@
+[
+  {
+    "event_id": "EVT-2025-04-22-00001",
+    "timestamp": "2025-04-22T00:02:14.532Z",
+    "event_type": "Authentication",
+    "sub_type": "Failed Login",
+    "severity": "Medium",
+    "source": "VPN Gateway",
+    "source_ip": "45.32.120.47",
+    "destination_ip": "192.168.10.5",
+    "user_id": "jsmith",
+    "location": {
+      "country": "Ukraine",
+      "city": "Kyiv",
+      "latitude": 50.4501,
+      "longitude": 30.5234
+    },
+    "details": {
+      "reason": "Invalid password",
+      "attempt_count": 3,
+      "browser": "Chrome 122.0.6261",
+      "os": "Windows 11"
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00002",
+    "timestamp": "2025-04-22T00:08:54.123Z",
+    "event_type": "Network",
+    "sub_type": "Port Scan",
+    "severity": "High",
+    "source": "IDS",
+    "source_ip": "103.41.52.33",
+    "destination_ip": "192.168.2.10",
+    "user_id": null,
+    "location": {
+      "country": "China",
+      "city": "Shanghai",
+      "latitude": 31.2304,
+      "longitude": 121.4737
+    },
+    "details": {
+      "ports_scanned": [22, 23, 25, 80, 443, 3389, 8080, 8443],
+      "duration_seconds": 15,
+      "scan_type": "SYN"
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00003",
+    "timestamp": "2025-04-22T00:15:32.987Z",
+    "event_type": "Malware",
+    "sub_type": "C2 Traffic",
+    "severity": "Critical",
+    "source": "EDR",
+    "source_ip": "192.168.5.143",
+    "destination_ip": "87.23.55.18",
+    "user_id": "mwilliams",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 37.7749,
+      "longitude": -122.4194
+    },
+    "details": {
+      "malware_family": "Emotet",
+      "detection_method": "Network Traffic Analysis",
+      "file_hash": "8a92f7b7c6c3d4e5f6a7b8c9d0e1f2a3",
+      "device_name": "DESKTOP-MKL345"
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00004",
+    "timestamp": "2025-04-22T00:22:11.254Z",
+    "event_type": "Policy",
+    "sub_type": "Data Exfiltration Attempt",
+    "severity": "High",
+    "source": "DLP",
+    "source_ip": "192.168.4.67",
+    "destination_ip": "45.76.98.123",
+    "user_id": "rjohnson",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    },
+    "details": {
+      "file_type": "ZIP",
+      "file_size_mb": 24.5,
+      "channel": "Email Attachment",
+      "subject": "Project Financials 2025"
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00005",
+    "timestamp": "2025-04-22T00:34:45.876Z",
+    "event_type": "Authentication",
+    "sub_type": "Privilege Escalation",
+    "severity": "Critical",
+    "source": "Active Directory",
+    "source_ip": "192.168.1.45",
+    "destination_ip": "192.168.1.10",
+    "user_id": "lgarcia",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    },
+    "details": {
+      "previous_group": "Domain Users",
+      "new_group": "Domain Admins",
+      "authorized_by": null,
+      "change_method": "Direct AD Modification"
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00006",
+    "timestamp": "2025-04-22T00:42:17.321Z",
+    "event_type": "Network",
+    "sub_type": "Firewall Block",
+    "severity": "Low",
+    "source": "Firewall",
+    "source_ip": "192.168.7.89",
+    "destination_ip": "94.23.45.67",
+    "user_id": "alee",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 37.7749,
+      "longitude": -122.4194
+    },
+    "details": {
+      "rule_id": "FW-0023",
+      "category": "Gambling",
+      "url": "poker-stars.com",
+      "protocol": "HTTPS"
+    },
+    "status": "Closed"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00007",
+    "timestamp": "2025-04-22T00:55:03.654Z",
+    "event_type": "Authentication",
+    "sub_type": "Successful Login",
+    "severity": "Medium",
+    "source": "VPN Gateway",
+    "source_ip": "45.32.120.47",
+    "destination_ip": "192.168.10.5",
+    "user_id": "jsmith",
+    "location": {
+      "country": "Ukraine",
+      "city": "Kyiv",
+      "latitude": 50.4501,
+      "longitude": 30.5234
+    },
+    "details": {
+      "after_failed_attempts": 3,
+      "mfa_used": true,
+      "browser": "Chrome 122.0.6261",
+      "os": "Windows 11"
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00008",
+    "timestamp": "2025-04-22T01:03:22.765Z",
+    "event_type": "Malware",
+    "sub_type": "Ransomware Detection",
+    "severity": "Critical",
+    "source": "EDR",
+    "source_ip": "192.168.6.211",
+    "destination_ip": "internal",
+    "user_id": "tpatel",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "details": {
+      "ransomware_family": "LockBit 4.0",
+      "files_encrypted": 147,
+      "detection_method": "Behavioral Analysis",
+      "contained": true,
+      "device_name": "LAPTOP-TMP776"
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00009",
+    "timestamp": "2025-04-22T01:15:43.123Z",
+    "event_type": "Network",
+    "sub_type": "DDoS Attack",
+    "severity": "High",
+    "source": "WAF",
+    "source_ip": "Multiple",
+    "destination_ip": "203.0.113.45",
+    "user_id": null,
+    "location": {
+      "country": "Multiple",
+      "city": "Multiple",
+      "latitude": null,
+      "longitude": null
+    },
+    "details": {
+      "attack_type": "SYN Flood",
+      "peak_bandwidth_gbps": 8.7,
+      "duration_minutes": 12,
+      "attacking_ips": 1234,
+      "mitigated": true
+    },
+    "status": "Closed"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00010",
+    "timestamp": "2025-04-22T01:24:16.543Z",
+    "event_type": "Policy",
+    "sub_type": "Compliance Violation",
+    "severity": "Medium",
+    "source": "DLP",
+    "source_ip": "192.168.3.21",
+    "destination_ip": "internal",
+    "user_id": "dwilson",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 39.9526,
+      "longitude": -75.1652
+    },
+    "details": {
+      "policy_id": "PCI-DSS-004",
+      "violation_type": "Unmasked Credit Card Numbers",
+      "file_path": "/shared/customers/april_orders.xlsx",
+      "records_affected": 56
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00011",
+    "timestamp": "2025-04-22T01:35:05.789Z",
+    "event_type": "Authentication",
+    "sub_type": "Suspicious Activity",
+    "severity": "High",
+    "source": "SIEM",
+    "source_ip": "24.56.78.90",
+    "destination_ip": "192.168.1.10",
+    "user_id": "kthomas",
+    "location": {
+      "country": "Russia",
+      "city": "Moscow",
+      "latitude": 55.7558,
+      "longitude": 37.6173
+    },
+    "details": {
+      "anomaly_type": "Impossible Travel",
+      "previous_login": {
+        "time": "2025-04-21T23:42:11.234Z",
+        "location": "New York, USA"
+      },
+      "time_difference_hours": 3.5,
+      "account_type": "Admin"
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00012",
+    "timestamp": "2025-04-22T01:46:32.123Z",
+    "event_type": "Network",
+    "sub_type": "DNS Tunneling",
+    "severity": "High",
+    "source": "NDR",
+    "source_ip": "192.168.5.76",
+    "destination_ip": "198.51.100.23",
+    "user_id": "bchen",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 42.3601,
+      "longitude": -71.0589
+    },
+    "details": {
+      "domain": "cdn-metrics-1op9x82j3.exfilserver.com",
+      "query_frequency_per_min": 120,
+      "data_volume_kb": 875,
+      "encoded_data": true
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00013",
+    "timestamp": "2025-04-22T01:58:47.654Z",
+    "event_type": "Vulnerability",
+    "sub_type": "Critical CVE",
+    "severity": "Critical",
+    "source": "Vulnerability Scanner",
+    "source_ip": "192.168.8.45",
+    "destination_ip": "internal",
+    "user_id": null,
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 38.9072,
+      "longitude": -77.0369
+    },
+    "details": {
+      "cve_id": "CVE-2025-1234",
+      "affected_software": "Apache Struts 3.2",
+      "description": "Remote Code Execution vulnerability in input validation module",
+      "exploitability": "Active in the wild",
+      "patch_available": true
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00014",
+    "timestamp": "2025-04-22T02:05:12.321Z",
+    "event_type": "Malware",
+    "sub_type": "Phishing Link Clicked",
+    "severity": "High",
+    "source": "Email Gateway",
+    "source_ip": "192.168.4.32",
+    "destination_ip": "204.15.67.89",
+    "user_id": "jroberts",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 33.4484,
+      "longitude": -112.0740
+    },
+    "details": {
+      "email_subject": "Urgent: Reset Your Password Now",
+      "sender": "security-noreply@bank-of-americca.com",
+      "landing_url": "https://secure-login.bank0famerica.com/verify",
+      "campaign_id": "PHISH-2025-04-213"
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00015",
+    "timestamp": "2025-04-22T02:16:33.567Z",
+    "event_type": "Network",
+    "sub_type": "Suspicious Connection",
+    "severity": "Medium",
+    "source": "NDR",
+    "source_ip": "192.168.7.123",
+    "destination_ip": "91.45.67.89",
+    "user_id": "mross",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    },
+    "details": {
+      "destination_country": "North Korea",
+      "protocol": "TLS",
+      "destination_port": 9443,
+      "bytes_transferred": 2456789,
+      "duration_minutes": 32
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00016",
+    "timestamp": "2025-04-22T02:28:59.876Z",
+    "event_type": "Authentication",
+    "sub_type": "Brute Force Attack",
+    "severity": "High",
+    "source": "Web Application",
+    "source_ip": "65.87.43.21",
+    "destination_ip": "203.0.113.50",
+    "user_id": "admin",
+    "location": {
+      "country": "Nigeria",
+      "city": "Lagos",
+      "latitude": 6.5244,
+      "longitude": 3.3792
+    },
+    "details": {
+      "login_attempts": 167,
+      "time_period_minutes": 5,
+      "username_variations": ["admin", "administrator", "root", "system"],
+      "automated": true
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00017",
+    "timestamp": "2025-04-22T02:37:21.432Z",
+    "event_type": "Policy",
+    "sub_type": "Information Access",
+    "severity": "Low",
+    "source": "Database",
+    "source_ip": "192.168.2.76",
+    "destination_ip": "internal",
+    "user_id": "dbrown",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 41.8781,
+      "longitude": -87.6298
+    },
+    "details": {
+      "database": "HR_RECORDS",
+      "tables_accessed": ["EMPLOYEE_SALARIES", "PERFORMANCE_REVIEWS"],
+      "records_returned": 1243,
+      "user_role": "HR Specialist",
+      "normal_access_pattern": false
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00018",
+    "timestamp": "2025-04-22T02:45:09.123Z",
+    "event_type": "Vulnerability",
+    "sub_type": "Misconfiguration",
+    "severity": "Medium",
+    "source": "Cloud Security Scanner",
+    "source_ip": "internal",
+    "destination_ip": "internal",
+    "user_id": null,
+    "location": {
+      "country": "United States",
+      "city": "Cloud Environment",
+      "latitude": null,
+      "longitude": null
+    },
+    "details": {
+      "service": "S3 Bucket",
+      "issue": "Public read access enabled",
+      "resource_id": "company-backups-q1-2025",
+      "data_sensitivity": "Medium",
+      "remediation": "Update bucket policy to restrict access"
+    },
+    "status": "Open"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00019",
+    "timestamp": "2025-04-22T02:56:47.765Z",
+    "event_type": "Malware",
+    "sub_type": "Suspicious PowerShell",
+    "severity": "High",
+    "source": "EDR",
+    "source_ip": "192.168.5.87",
+    "destination_ip": "internal",
+    "user_id": "slopez",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 37.3382,
+      "longitude": -121.8863
+    },
+    "details": {
+      "command_obfuscated": true,
+      "executed_from": "outlook.exe",
+      "executed_as": "SYSTEM",
+      "connects_to_internet": true,
+      "script_hash": "5e8c9f6a7b3c2d1e0f8a7b6c5d4e3f2a1b0c9d8"
+    },
+    "status": "Investigating"
+  },
+  {
+    "event_id": "EVT-2025-04-22-00020",
+    "timestamp": "2025-04-22T03:07:38.321Z",
+    "event_type": "Network",
+    "sub_type": "Data Exfiltration",
+    "severity": "Critical",
+    "source": "NDR",
+    "source_ip": "192.168.6.42",
+    "destination_ip": "185.128.43.65",
+    "user_id": "kyang",
+    "location": {
+      "country": "United States",
+      "city": "Internal Network",
+      "latitude": 47.6062,
+      "longitude": -122.3321
+    },
+    "details": {
+      "data_volume_mb": 478,
+      "transfer_protocol": "HTTPS",
+      "destination_reputation": "Known APT C2 Server",
+      "file_types": ["PDF", "XLSX", "DOCX", "ZIP"],
+      "machine_learning_confidence": 0.97
+    },
+    "status": "Open"
+  }
+]

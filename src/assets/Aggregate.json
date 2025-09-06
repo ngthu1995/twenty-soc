@@ -1,0 +1,116 @@
+{
+  "event_counts_by_type": {
+    "Authentication": 5,
+    "Network": 6,
+    "Malware": 4,
+    "Policy": 3,
+    "Vulnerability": 2
+  },
+  "severity_distribution": {
+    "Critical": 4,
+    "High": 7,
+    "Medium": 6,
+    "Low": 3
+  },
+  "event_timeline": [
+    { "hour": "00:00-00:59", "count": 7 },
+    { "hour": "01:00-01:59", "count": 6 },
+    { "hour": "02:00-02:59", "count": 6 },
+    { "hour": "03:00-03:59", "count": 1 }
+  ],
+  "top_source_countries": [
+    { "country": "United States", "count": 14 },
+    { "country": "Ukraine", "count": 2 },
+    { "country": "Russia", "count": 1 },
+    { "country": "China", "count": 1 },
+    { "country": "Nigeria", "count": 1 },
+    { "country": "North Korea", "count": 1, "connection_only": true }
+  ],
+  "top_affected_users": [
+    { "user_id": "jsmith", "events": 2, "severity_scores": { "Medium": 2 } },
+    { "user_id": "kyang", "events": 1, "severity_scores": { "Critical": 1 } },
+    { "user_id": "tpatel", "events": 1, "severity_scores": { "Critical": 1 } },
+    { "user_id": "lgarcia", "events": 1, "severity_scores": { "Critical": 1 } },
+    { "user_id": "kthomas", "events": 1, "severity_scores": { "High": 1 } }
+  ],
+  "alert_status": {
+    "Open": 10,
+    "Investigating": 8,
+    "Closed": 2
+  },
+  "attack_techniques": [
+    {
+      "technique": "Initial Access",
+      "sub_techniques": ["Phishing", "Valid Accounts"],
+      "count": 3
+    },
+    {
+      "technique": "Execution",
+      "sub_techniques": ["PowerShell", "Command Line Interface"],
+      "count": 2
+    },
+    {
+      "technique": "Persistence",
+      "sub_techniques": ["Valid Accounts", "External Remote Services"],
+      "count": 2
+    },
+    {
+      "technique": "Privilege Escalation",
+      "sub_techniques": ["Valid Accounts"],
+      "count": 1
+    },
+    {
+      "technique": "Defense Evasion",
+      "sub_techniques": ["Obfuscated Files or Information"],
+      "count": 2
+    },
+    {
+      "technique": "Credential Access",
+      "sub_techniques": ["Brute Force"],
+      "count": 1
+    },
+    {
+      "technique": "Discovery",
+      "sub_techniques": ["Network Service Scanning"],
+      "count": 1
+    },
+    {
+      "technique": "Lateral Movement",
+      "sub_techniques": ["Remote Services"],
+      "count": 1
+    },
+    {
+      "technique": "Collection",
+      "sub_techniques": ["Data from Local System"],
+      "count": 2
+    },
+    {
+      "technique": "Command and Control",
+      "sub_techniques": [
+        "Application Layer Protocol",
+        "Data Encoding",
+        "Encrypted Channel"
+      ],
+      "count": 3
+    },
+    {
+      "technique": "Exfiltration",
+      "sub_techniques": ["Exfiltration Over Web Service"],
+      "count": 2
+    },
+    {
+      "technique": "Impact",
+      "sub_techniques": [
+        "Data Encrypted for Impact",
+        "Endpoint Denial of Service"
+      ],
+      "count": 2
+    }
+  ],
+  "hourly_critical_events": [
+    { "hour": "00:00-00:59", "count": 2 },
+    { "hour": "01:00-01:59", "count": 1 },
+    { "hour": "02:00-02:59", "count": 1 },
+    { "hour": "03:00-03:59", "count": 0 }
+  ]
+}

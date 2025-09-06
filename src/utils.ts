@@ -1,0 +1,34 @@
+// Convert snake_case string to camelCase
+function toCamel(str: string): string {
+  return str.replace(/([-_][a-z])/gi, (s) =>
+    s.toUpperCase().replace("-", "").replace("_", "")
+  );
+}
+
+// Recursively convert object keys
+export function camelizeKeys(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map((v) => camelizeKeys(v));
+  } else if (obj !== null && obj.constructor === Object) {
+    return Object.keys(obj).reduce((result: any, key: string) => {
+      result[toCamel(key)] = camelizeKeys(obj[key]);
+      return result;
+    }, {});
+  }
+  return obj;
+}
+
+export const severityColors: Record<string, string> = {
+  Critical: "#d32f2f", // red
+  High: "#f57c00", // orange
+  Medium: "#fbc02d", // yellow
+  Low: "#388e3c", // green
+};
+
+export const severityOptions = ["Low", "Medium", "High", "Critical"];
+export const eventTypeOptions = [
+  "Malware",
+  "Phishing",
+  "DDoS",
+  "Unauthorized Access",
+];

@@ -1,10 +1,6 @@
 export const countries = [
   { code: "AD", label: "Andorra", phone: "376" },
-  {
-    code: "AE",
-    label: "United Arab Emirates",
-    phone: "971",
-  },
+
   { code: "AF", label: "Afghanistan", phone: "93" },
   {
     code: "AG",
@@ -65,7 +61,7 @@ export const countries = [
   },
   {
     code: "CD",
-    label: "Congo, Democratic Republic of the",
+    label: "Democratic Republic of the Congo",
     phone: "243",
   },
   {
@@ -75,7 +71,7 @@ export const countries = [
   },
   {
     code: "CG",
-    label: "Congo, Republic of the",
+    label: "Congo",
     phone: "242",
   },
   { code: "CH", label: "Switzerland", phone: "41" },
@@ -123,7 +119,7 @@ export const countries = [
   },
   {
     code: "FM",
-    label: "Micronesia, Federated States of",
+    label: "Micronesia",
     phone: "691",
   },
   { code: "FO", label: "Faroe Islands", phone: "298" },
@@ -149,7 +145,7 @@ export const countries = [
   { code: "GR", label: "Greece", phone: "30" },
   {
     code: "GS",
-    label: "South Georgia and the South Sandwich Islands",
+    label: "South Georgia",
     phone: "500",
   },
   { code: "GT", label: "Guatemala", phone: "502" },
@@ -179,7 +175,7 @@ export const countries = [
   { code: "IQ", label: "Iraq", phone: "964" },
   {
     code: "IR",
-    label: "Iran, Islamic Republic of",
+    label: "Iran",
     phone: "98",
   },
   { code: "IS", label: "Iceland", phone: "354" },
@@ -205,10 +201,10 @@ export const countries = [
   },
   {
     code: "KP",
-    label: "Korea, Democratic People's Republic of",
+    label: "North Korea",
     phone: "850",
   },
-  { code: "KR", label: "Korea, Republic of", phone: "82" },
+  { code: "KR", label: "South Korea", phone: "82" },
   { code: "KW", label: "Kuwait", phone: "965" },
   { code: "KY", label: "Cayman Islands", phone: "1-345" },
   { code: "KZ", label: "Kazakhstan", phone: "7" },
@@ -244,7 +240,7 @@ export const countries = [
   { code: "MH", label: "Marshall Islands", phone: "692" },
   {
     code: "MK",
-    label: "Macedonia, the Former Yugoslav Republic of",
+    label: "Macedonia",
     phone: "389",
   },
   { code: "ML", label: "Mali", phone: "223" },
@@ -382,6 +378,11 @@ export const countries = [
   },
   { code: "UA", label: "Ukraine", phone: "380" },
   { code: "UG", label: "Uganda", phone: "256" },
+  {
+    code: "AE",
+    label: "United Arab Emirates",
+    phone: "971",
+  },
   {
     code: "US",
     label: "United States",

@@ -2,6 +2,7 @@ import React from "react";
 import { Box, TextField, MenuItem, Button } from "@mui/material";
 import { severityOptions } from "../utils";
 import { useFilters } from "../FilterContext";
+import { countries } from "../assets/countryCodes";
 
 type FitersPanelProps = {
   eventTypeOptions: string[];
@@ -13,6 +14,8 @@ export const FiltersPanel = React.memo(function FiltersPanel({
   sourceCountriesOptions,
 }: FitersPanelProps) {
   const { activeFilterColumns, setActiveFilterColumns } = useFilters();
+  // Use all country labels from countryCodes for options
+
   return (
     <Box display="flex" gap={2} flexWrap="wrap" m={2}>
       <TextField
@@ -86,11 +89,27 @@ export const FiltersPanel = React.memo(function FiltersPanel({
         sx={{ width: 180, "& .MuiInputBase-input": { textAlign: "left" } }}
       >
         <MenuItem value="">All</MenuItem>
-        {sourceCountriesOptions.map((type) => (
-          <MenuItem key={type} value={type}>
-            {type}
-          </MenuItem>
-        ))}
+        {countries.map(({ code, label }) => {
+          const hasEvents = sourceCountriesOptions.includes(label);
+          return (
+            <MenuItem
+              key={label}
+              value={label}
+              style={hasEvents ? { fontWeight: 700 } : { color: "#888" }}
+            >
+              <Box sx={{ "& > img": { mr: 2, flexShrink: 0 } }}>
+                <img
+                  loading="lazy"
+                  width="20"
+                  srcSet={`https://flagcdn.com/w40/${code.toLowerCase()}.png 2x`}
+                  src={`https://flagcdn.com/w20/${code.toLowerCase()}.png`}
+                  alt={`${label}`}
+                />
+                {label}
+              </Box>
+            </MenuItem>
+          );
+        })}
       </TextField>
 
       <TextField

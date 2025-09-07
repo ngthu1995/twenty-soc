@@ -4,7 +4,7 @@ A modern Security Operations Center (SOC) dashboard built with React, MUI, D3, a
 
 ## Preview
 
-![Dashboard Screenshot](src/assets/dashboard-preview.png)
+![Dashboard Screenshot](src/assets/preview.png)
 
 > To see a live demo, run the app locally with `npm start` and open [http://localhost:3000](http://localhost:3000) in your browser.
 

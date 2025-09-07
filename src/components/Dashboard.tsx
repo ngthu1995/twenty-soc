@@ -3,7 +3,12 @@ import { TimeSeriesSeverityChart } from "./d3Map/TimeSeriesSeverityChart";
 import { Grid, Typography, Box } from "@mui/material";
 import { useFilters } from "../FilterContext";
 import { useMemo } from "react";
-import { aggregateEventsByHour, getSeverityPieData } from "../utils";
+import {
+  aggregateEventsByHour,
+  getSeverityPieData,
+  getOtherStat,
+} from "../utils";
+import { severityOptions } from "../utils";
 
 import { SeverityPieD3, SeverityDatum } from "./d3Map/PieChart";
 import { StatCard } from "./StatCard";
@@ -21,28 +26,24 @@ type DashboardProps = {
   data: any;
 };
 
+const convertCountry = (name: string) =>
+  name === "United States" ? "USA" : name;
+
 export const Dashboard = (props: DashboardProps) => {
   const { loading, error, data } = props;
 
   const { activeFilterColumns, selectedEvents, filteredEvents } = useFilters();
+  const { source, eventType, severity, startDate, endDate } =
+    activeFilterColumns;
 
   const geoData = useMemo(() => {
     const selectedEventIds =
       selectedEvents.length === 0 ? [] : selectedEvents.map((e) => e.id);
 
-    const convertCountry = (name: string) =>
-      name === "United States" ? "USA" : name;
-
     const selectedCountries = new Set(
       selectedEvents.map((e: any) => convertCountry(e.source))
     );
-    if (
-      !activeFilterColumns.source &&
-      !activeFilterColumns.eventType &&
-      !activeFilterColumns.severity &&
-      !activeFilterColumns.startDate &&
-      !activeFilterColumns.endDate
-    ) {
+    if (!source && !eventType && !severity && !startDate && !endDate) {
       const intialContriesData = (data?.topSourceCountries || []).map(
         (c: { country: string; [key: string]: any }) => ({
           ...c,
@@ -89,38 +90,27 @@ export const Dashboard = (props: DashboardProps) => {
     };
   }, [data, filteredEvents, activeFilterColumns, selectedEvents]);
 
-  const eventTimeline = useMemo(() => {
-    if (filteredEvents.length === 0) return [];
-
+  const stat = useMemo(() => {
     // Only include events with valid severity values
-    const validSeverities = ["Critical", "High", "Medium", "Low"] as const;
-    const filteredSecurityEvents = filteredEvents.filter((e) =>
-      validSeverities.includes(e.severity as SecurityEvent["severity"])
+    const filteredSecurityEvents = filteredEvents?.filter((e) =>
+      severityOptions.includes(e.severity as SecurityEvent["severity"])
     ) as SecurityEvent[];
 
-    if (
-      !activeFilterColumns.source &&
-      !activeFilterColumns.eventType &&
-      !activeFilterColumns.severity &&
-      !activeFilterColumns.startDate &&
-      !activeFilterColumns.endDate
-    ) {
-      return aggregateEventsByHour(filteredSecurityEvents || []);
-    }
-    return aggregateEventsByHour(filteredSecurityEvents);
-  }, [data, filteredEvents, activeFilterColumns]);
-
-  const pieData: SeverityDatum[] = useMemo(() => {
-    if (filteredEvents.length === 0) return [];
-    const validSeverities = ["Critical", "High", "Medium", "Low"] as const;
-    const filteredSecurityEvents = filteredEvents.filter((e) =>
-      validSeverities.includes(e.severity as SecurityEvent["severity"])
-    ) as SecurityEvent[];
-    return getSeverityPieData(filteredSecurityEvents).map((d) => ({
-      ...d,
-      value: d.value || 0,
-    }));
-  }, [filteredEvents]);
+    return {
+      eventTimeline:
+        filteredEvents.length === 0
+          ? []
+          : aggregateEventsByHour(filteredSecurityEvents),
+      pieData:
+        filteredEvents.length === 0
+          ? []
+          : getSeverityPieData(filteredSecurityEvents).map((d) => ({
+              ...d,
+              value: d.value || 0,
+            })),
+      otherStat: getOtherStat(filteredEvents),
+    };
+  }, [data, filteredEvents]);
 
   const statData = useMemo(() => {
     if (filteredEvents.length === 0)
@@ -188,13 +178,12 @@ export const Dashboard = (props: DashboardProps) => {
         alignItems: "stretch",
       }}
     >
-      {statData.map((card, index) => (
+      {stat.otherStat?.map((card, index) => (
         <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
           <StatCard {...card} />
         </Grid>
       ))}
 
-      {/* GeoMap left, ratio 6 */}
       <Grid
         size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
         sx={{
@@ -224,7 +213,7 @@ export const Dashboard = (props: DashboardProps) => {
           />
         </Box>
       </Grid>
-      {/* TimeSeries right, ratio 3 */}
+
       <Grid
         size={{ xs: 12, sm: 3, md: 3, lg: 3 }}
         sx={{
@@ -248,10 +237,10 @@ export const Dashboard = (props: DashboardProps) => {
               Time Series Severity Chart
             </Typography>
           </Box>
-          <TimeSeriesSeverityChart data={eventTimeline} />
+          <TimeSeriesSeverityChart data={stat.eventTimeline} />
         </Box>
       </Grid>
-      {/* PieChart right, ratio 3 */}
+
       <Grid
         size={{ xs: 12, sm: 3, md: 3, lg: 3 }}
         sx={{
@@ -275,7 +264,7 @@ export const Dashboard = (props: DashboardProps) => {
               Severity Distribution
             </Typography>
           </Box>
-          <SeverityPieD3 data={pieData} />
+          <SeverityPieD3 data={stat.pieData} />
         </Box>
       </Grid>
     </Grid>

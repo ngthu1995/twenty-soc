@@ -115,7 +115,6 @@ export const GeoMap: React.FC<MapProps> = ({
         }
       })
       .on("mouseout", function () {
-        // d3.select(this).attr("stroke", "#999").attr("stroke-width", 0.5);
         d3.select("#tooltip").style("opacity", 0);
       });
   }, [geoData, countriesData, activeCountries, width, height]);

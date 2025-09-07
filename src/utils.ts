@@ -103,3 +103,58 @@ export function getSeverityPieData(
       color: severityColors[severity],
     }));
 }
+
+export function getOtherStat(filteredEvents: any[]) {
+  if (filteredEvents.length === 0)
+    return [
+      {
+        title: "Total Users Affected",
+        value: 0,
+      },
+      {
+        title: "Total Events",
+        value: 0,
+      },
+      {
+        title: "Total Countries Affected",
+        value: 0,
+      },
+      {
+        title: "Alert Status",
+        value: 0,
+      },
+    ];
+  const userSet = new Set();
+  const countrySet = new Set();
+  const statusCount: Record<string, number> = {};
+  filteredEvents.forEach((event) => {
+    const e = event as any;
+    const userId = e.userId;
+    const country = e.location?.country;
+    const status = e.status;
+    if (userId) userSet.add(userId);
+    if (country) countrySet.add(country);
+    if (status) {
+      statusCount[status] = (statusCount[status] || 0) + 1;
+    }
+  });
+
+  return [
+    {
+      title: "Total Users Affected",
+      value: userSet.size || 0,
+    },
+    {
+      title: "Total Events",
+      value: filteredEvents.length || 0,
+    },
+    {
+      title: "Total Countries Affected",
+      value: countrySet.size || 0,
+    },
+    {
+      title: "Alert Status",
+      value: statusCount,
+    },
+  ];
+}

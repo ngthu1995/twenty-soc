@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import { severityColors } from "../../utils";
 
 type DataPoint = {
   time: Date;
@@ -58,8 +59,8 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
     // Color scale for severity
     const color = d3
       .scaleOrdinal<string>()
-      .domain(["Total", "Critical", "High", "Medium", "Low"])
-      .range(["#000000", "#d32f2f", "#f57c00", "#1976d2", "#388e3c"]);
+      .domain(Object.keys(severityColors).concat("Total"))
+      .range(Object.values(severityColors).concat("#000000"));
 
     // Define series
     const series = [
@@ -189,13 +190,12 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
   }
 
   // Severity legend below chart
-  const legendItems = [
-    { key: "Total", label: "Total Events", color: "#000000" },
-    { key: "Critical", label: "Critical", color: "#d32f2f" },
-    { key: "High", label: "High", color: "#f57c00" },
-    { key: "Medium", label: "Medium", color: "#1976d2" },
-    { key: "Low", label: "Low", color: "#388e3c" },
-  ];
+  const legendKeys = ["Total", ...Object.keys(severityColors)];
+  const legendItems = legendKeys.map((key) => ({
+    key,
+    label: key === "Total" ? "Total Events" : key,
+    color: (severityColors[key] as string) || "#000000",
+  }));
 
   return (
     <div style={{}}>

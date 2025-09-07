@@ -21,10 +21,10 @@ export function camelizeKeys(obj: any): any {
 }
 
 export const severityColors: Record<string, string> = {
-  Critical: "#d32f2f", // red
-  High: "#f57c00", // orange
-  Medium: "#fbc02d", // yellow
-  Low: "#388e3c", // green
+  Critical: "#EF4444",
+  High: "#F97316",
+  Medium: "#EAB308",
+  Low: "#10B981",
 };
 
 export const severityOptions = ["Low", "Medium", "High", "Critical"];
@@ -79,4 +79,27 @@ export function aggregateEventsByHour(
   return Object.values(buckets).sort(
     (a, b) => a.time.getTime() - b.time.getTime()
   );
+}
+
+export function getSeverityPieData(
+  filteredEvents: SecurityEvent[]
+): { label: string; value: number; color: string }[] {
+  const severityCounts: Record<string, number> = {
+    Critical: 0,
+    High: 0,
+    Medium: 0,
+    Low: 0,
+  };
+  filteredEvents.forEach((event) => {
+    if (severityCounts.hasOwnProperty(event.severity)) {
+      severityCounts[event.severity] += 1;
+    }
+  });
+  return Object.keys(severityCounts)
+    .filter((severity) => severityCounts[severity] > 0)
+    .map((severity) => ({
+      label: severity,
+      value: severityCounts[severity],
+      color: severityColors[severity],
+    }));
 }

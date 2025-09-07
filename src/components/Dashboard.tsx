@@ -3,7 +3,7 @@ import { TimeSeriesSeverityChart } from "./d3Map/TimeSeriesSeverityChart";
 import { Grid, Typography, Box } from "@mui/material";
 import { useFilters } from "../FilterContext";
 import { useMemo } from "react";
-import { aggregateEventsByHour } from "../utils";
+import { aggregateEventsByHour, getSeverityPieData } from "../utils";
 
 import { SeverityPieD3, SeverityDatum } from "./d3Map/PieChart";
 
@@ -109,6 +109,18 @@ export const Dashboard = (props: DashboardProps) => {
     return aggregateEventsByHour(filteredSecurityEvents);
   }, [data, filteredEvents, activeFilterColumns]);
 
+  const pieData: SeverityDatum[] = useMemo(() => {
+    if (filteredEvents.length === 0) return [];
+    const validSeverities = ["Critical", "High", "Medium", "Low"] as const;
+    const filteredSecurityEvents = filteredEvents.filter((e) =>
+      validSeverities.includes(e.severity as SecurityEvent["severity"])
+    ) as SecurityEvent[];
+    return getSeverityPieData(filteredSecurityEvents).map((d) => ({
+      ...d,
+      value: d.value || 0,
+    }));
+  }, [filteredEvents]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
   return (
@@ -205,14 +217,7 @@ export const Dashboard = (props: DashboardProps) => {
           <Box sx={{ mb: 2 }}>
             <Typography variant="h6">Severity Distribution</Typography>
           </Box>
-          <SeverityPieD3
-            data={[
-              { label: "Critical", value: 4, color: "#d32f2f" },
-              { label: "High", value: 7, color: "#fbc02d" },
-              { label: "Medium", value: 6, color: "#1976d2" },
-              { label: "Low", value: 3, color: "#388e3c" },
-            ]}
-          />
+          <SeverityPieD3 data={pieData} />
         </Box>
       </Grid>
     </Grid>

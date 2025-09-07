@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { aggregateEventsByHour, getSeverityPieData } from "../utils";
 
 import { SeverityPieD3, SeverityDatum } from "./d3Map/PieChart";
+import { StatCard } from "./StatCard";
 
 type SecurityEvent = {
   id: string;
@@ -121,6 +122,57 @@ export const Dashboard = (props: DashboardProps) => {
     }));
   }, [filteredEvents]);
 
+  const statData = useMemo(() => {
+    if (filteredEvents.length === 0)
+      return [
+        {
+          title: "Total Users Affected",
+          value: 0,
+        },
+        {
+          title: "Total Events",
+          value: 0,
+        },
+        {
+          title: "Total Countries Affected",
+          value: 0,
+        },
+      ];
+    const userSet = new Set();
+    const countrySet = new Set();
+    const statusCount: Record<string, number> = {};
+    filteredEvents.forEach((event) => {
+      const e = event as any;
+      const userId = e.userId;
+      const country = e.location?.country;
+      const status = e.status;
+      if (userId) userSet.add(userId);
+      if (country) countrySet.add(country);
+      if (status) {
+        statusCount[status] = (statusCount[status] || 0) + 1;
+      }
+    });
+
+    return [
+      {
+        title: "Total Users Affected",
+        value: userSet.size || 0,
+      },
+      {
+        title: "Total Events",
+        value: filteredEvents.length || 0,
+      },
+      {
+        title: "Total Countries Affected",
+        value: countrySet.size || 0,
+      },
+      {
+        title: "Alert Status",
+        value: statusCount,
+      },
+    ];
+  }, [filteredEvents]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
   return (
@@ -128,12 +180,16 @@ export const Dashboard = (props: DashboardProps) => {
       container
       spacing={2}
       sx={{
-        mb: 2,
-
         justifyContent: "center",
         alignItems: "stretch",
       }}
     >
+      {statData.map((card, index) => (
+        <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
+          <StatCard {...card} />
+        </Grid>
+      ))}
+
       {/* GeoMap left, ratio 6 */}
       <Grid
         size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
@@ -147,8 +203,7 @@ export const Dashboard = (props: DashboardProps) => {
             border: "1px solid",
             borderColor: "divider",
             borderRadius: 2,
-            backgroundColor: "background.paper",
-            boxShadow: 1,
+
             p: 4,
             height: "100%",
             display: "flex",
@@ -179,8 +234,6 @@ export const Dashboard = (props: DashboardProps) => {
             border: "1px solid",
             borderColor: "divider",
             borderRadius: 2,
-            backgroundColor: "background.paper",
-            boxShadow: 1,
             p: 4,
             height: "100%",
             display: "flex",
@@ -206,8 +259,7 @@ export const Dashboard = (props: DashboardProps) => {
             border: "1px solid",
             borderColor: "divider",
             borderRadius: 2,
-            backgroundColor: "background.paper",
-            boxShadow: 1,
+
             p: 4,
             height: "100%",
             display: "flex",

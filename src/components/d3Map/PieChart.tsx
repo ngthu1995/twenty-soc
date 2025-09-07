@@ -55,8 +55,6 @@ export const SeverityPieD3: React.FC<SeverityPieD3Props> = ({
       .append("path")
       .attr("d", arc as any)
       .attr("fill", (d) => d.data.color)
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 2)
       .on("mousemove", function (event, d) {
         const container = ref.current?.parentElement;
         const rect = container

@@ -17,7 +17,7 @@ export const FiltersPanel = React.memo(function FiltersPanel({
   // Use all country labels from countryCodes for options
 
   return (
-    <Box display="flex" gap={2} flexWrap="wrap" m={2}>
+    <Box display="flex" gap={2} flexWrap="wrap">
       <TextField
         select
         label="Severity"

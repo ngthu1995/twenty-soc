@@ -1,4 +1,4 @@
-import { Box, IconButton, Grid } from "@mui/material";
+import { Box, IconButton, Grid, Typography } from "@mui/material";
 import { useState, useMemo } from "react";
 import { FiltersPanel } from "./FiltersPanel";
 import { DataTable } from "./DataTable";
@@ -60,8 +60,6 @@ const mocks = [
 ];
 
 export const Layout1 = () => {
-  const [collapsed, setCollapsed] = useState(false);
-
   const {
     loading: eventsLoading,
     error: eventsError,
@@ -99,29 +97,42 @@ export const Layout1 = () => {
   }, [events]);
 
   return (
-    <Grid container direction="row" spacing={2} sx={{ p: 2 }}>
-      {/* Filter panel at top */}
-      <Grid size={{ xs: 12 }} sx={{ bgcolor: "background.paper" }}>
+    <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
+      <Grid>
         <FiltersPanel
           eventTypeOptions={eventTypeOptions}
           sourceCountriesOptions={sourceCountriesOptions}
         />
       </Grid>
-
-      {/* DataTable at bottom */}
-      <Grid size={{ xs: 12 }}>
-        <DataTable loading={eventsLoading} error={eventsError} data={events} />
-      </Grid>
-
-      {/* Dashboard below filter panel */}
-      <Grid size={{ xs: 12 }} sx={{ marginY: 2 }}>
+      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
+        Overview
+      </Typography>
+      <Grid
+        container
+        spacing={2}
+        columns={12}
+        sx={{ mb: (theme) => theme.spacing(2) }}
+      >
         <Dashboard
           loading={eventSummaryLoading}
           data={summaryData}
           error={eventSummaryError}
         />
       </Grid>
-    </Grid>
+
+      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
+        Details
+      </Typography>
+      <Grid container spacing={2} columns={12}>
+        <Grid size={{ xs: 12 }} style={{ overflowX: "auto" }}>
+          <DataTable
+            loading={eventsLoading}
+            error={eventsError}
+            data={events}
+          />
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

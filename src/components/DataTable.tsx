@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Typography, Box, Tooltip } from "@mui/material";
+import { Button, Typography, Box, Tooltip, Chip } from "@mui/material";
 import { useFilters } from "../FilterContext";
 
 import { camelizeKeys, severityColors } from "../utils";
@@ -144,18 +144,36 @@ export const DataTable = (props: DataTableProps) => {
       field: "severity",
       headerName: "Severity",
       flex: 1,
-      renderCell: (params) => (
-        <span
-          style={{
-            color: "#fff",
-            padding: "4px 8px",
-            borderRadius: "6px",
-            backgroundColor: severityColors[params.value] || "#999",
-          }}
-        >
-          {params.value}
-        </span>
-      ),
+      renderCell: (params) => {
+        return (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              height: "100%",
+            }}
+          >
+            <span
+              style={{
+                color: "#fff",
+                padding: "2px 8px",
+                borderRadius: "6px",
+                backgroundColor: severityColors[params.value] || "#999",
+                minWidth: 56,
+                maxWidth: 80,
+                textAlign: "center",
+
+                lineHeight: 1.5,
+                whiteSpace: "nowrap",
+                display: "inline-block",
+              }}
+            >
+              {params.value}
+            </span>
+          </div>
+        );
+      },
     },
     { field: "system", headerName: "System", flex: 1 },
     {
@@ -170,16 +188,7 @@ export const DataTable = (props: DataTableProps) => {
 
         if (!foundCountry) return countryName;
         return (
-          <Box sx={{ "& > img": { mr: 2, flexShrink: 0 } }}>
-            <img
-              loading="lazy"
-              width="20"
-              srcSet={`https://flagcdn.com/w40/${foundCountry.code.toLowerCase()}.png 2x`}
-              src={`https://flagcdn.com/w20/${foundCountry.code.toLowerCase()}.png`}
-              alt={`${countryName}`}
-            />
-            {countryName}
-          </Box>
+          <Box sx={{ "& > img": { mr: 2, flexShrink: 0 } }}>{countryName}</Box>
         );
       },
     },
@@ -193,21 +202,40 @@ export const DataTable = (props: DataTableProps) => {
         return value;
       },
     },
-    { field: "status", headerName: "Status", flex: 1 },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <Chip
+            label={params.value}
+            variant="outlined"
+            color={
+              {
+                Closed: "default",
+                Investigating: "secondary",
+                Open: "error",
+              }[params.value as string] || "default"
+            }
+          />
+        );
+      },
+    },
     {
       field: "actions",
       headerName: "Quick Actions",
       flex: 1,
       renderCell: (params) => (
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-            width: "100%",
-            height: "100%",
-          }}
+        // style={{
+        //   display: "flex",
+        //   alignItems: "center",
+        //   justifyContent: "center",
+        //   flexDirection: "row",
+        //   width: "100%",
+        //   height: "100%",
+        // }}
         >
           <Tooltip
             title={
@@ -230,6 +258,7 @@ export const DataTable = (props: DataTableProps) => {
                 icon={faCheck}
                 color={acknowledgedRows[params.row.id] ? "primary" : "grey"}
               />
+              <Typography>Acknowledge</Typography>
             </Button>
           </Tooltip>
           <Tooltip
@@ -263,21 +292,8 @@ export const DataTable = (props: DataTableProps) => {
     },
   ];
 
-  function DataGridTitle() {
-    return (
-      <Box
-        style={{
-          width: "100%",
-        }}
-      >
-        <Typography variant="h6">Security Events</Typography>
-      </Box>
-    );
-  }
-
   return (
-    <div style={{ height: 450, width: "100%" }}>
-      <DataGridTitle />,
+    <div style={{ overflowX: "auto" }}>
       <DataGrid
         rows={filteredRows}
         columns={columns}

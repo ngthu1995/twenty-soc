@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, TextField, MenuItem, Button } from "@mui/material";
 import { severityOptions } from "../utils";
-import { useFilters } from "../FilterContext";
+import { defaultFilterState, useFilters } from "../FilterContext";
 import { countries } from "../assets/countryCodes";
 
 type FitersPanelProps = {
@@ -146,13 +146,7 @@ export const FiltersPanel = React.memo(function FiltersPanel({
       <Button
         variant="outlined"
         onClick={() => {
-          setActiveFilterColumns({
-            severity: "",
-            eventType: "",
-            source: "",
-            startDate: "",
-            endDate: "",
-          });
+          setActiveFilterColumns(defaultFilterState);
         }}
       >
         Reset

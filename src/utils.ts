@@ -28,14 +28,8 @@ export const severityColors: Record<string, string> = {
 };
 
 export const severityOptions = ["Low", "Medium", "High", "Critical"];
-export const eventTypeOptions = [
-  "Malware",
-  "Phishing",
-  "DDoS",
-  "Unauthorized Access",
-];
 
-type SecurityEvent = {
+export type SecurityEvent = {
   timestamp: string;
   severity: "Critical" | "High" | "Medium" | "Low";
 };

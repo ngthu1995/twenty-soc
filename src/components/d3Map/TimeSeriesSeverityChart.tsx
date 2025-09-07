@@ -64,7 +64,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
 
     // Define series
     const series = [
-      { key: "Total", label: "Total Events" },
+      { key: "Total", label: "Total" },
       { key: "Critical", label: "Critical" },
       { key: "High", label: "High" },
       { key: "Medium", label: "Medium" },
@@ -193,7 +193,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
   const legendKeys = ["Total", ...Object.keys(severityColors)];
   const legendItems = legendKeys.map((key) => ({
     key,
-    label: key === "Total" ? "Total Events" : key,
+    label: key,
     color: (severityColors[key] as string) || "#000000",
   }));
 

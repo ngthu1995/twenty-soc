@@ -18,15 +18,15 @@ type Props = {
 
 export const TimeSeriesSeverityChart: React.FC<Props> = ({
   data,
-  width = 600,
-  height = 400,
+  width = 300,
+  height = 300,
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
     if (!data.length) return;
 
-    const margin = { top: 40, right: 100, bottom: 40, left: 60 };
+    const margin = { top: 20, right: 70, bottom: 40, left: 40 };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
@@ -124,7 +124,13 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
       // Ensure last tick is included
       const lastTick = hourTicks[hourTicks.length - 1];
       const endTime = xDomain[1];
-      if (lastTick.getTime() < endTime.getTime()) {
+      if (
+        lastTick instanceof Date &&
+        endTime instanceof Date &&
+        !isNaN(lastTick.getTime()) &&
+        !isNaN(endTime.getTime()) &&
+        lastTick.getTime() < endTime.getTime()
+      ) {
         hourTicks.push(
           new Date(
             endTime.getFullYear(),
@@ -172,7 +178,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
 
     g.append("text")
       .attr("x", -innerHeight / 2)
-      .attr("y", -40)
+      .attr("y", -20)
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
       .text("Event Count");
@@ -192,7 +198,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
   ];
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{}}>
       <div
         style={{
           display: "flex",
@@ -206,7 +212,12 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
         {legendItems.map((item) => (
           <div
             key={item.key}
-            style={{ display: "flex", alignItems: "center", gap: 4 }}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 3,
+            }}
           >
             <span
               style={{
@@ -222,7 +233,14 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
           </div>
         ))}
       </div>
-      <svg ref={svgRef}></svg>
+      <svg
+        ref={svgRef}
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="xMidYMid meet"
+        style={{ display: "block" }}
+      ></svg>
     </div>
   );
 };

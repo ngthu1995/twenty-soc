@@ -99,86 +99,27 @@ export const Layout1 = () => {
   }, [events]);
 
   return (
-    <Grid
-      container
-      sx={{ height: "100vh", flexDirection: "column" }}
-      direction={{ xs: "row", sm: "column", md: "column" }}
-      spacing={2}
-    >
-      {/* Collapsible left panel */}
-      <Grid
-        size={{
-          xs: collapsed ? 0 : 12,
-          sm: collapsed ? 0 : 2,
-          md: collapsed ? 0 : 2,
-        }}
-        sx={{
-          transition: "all 0.3s",
-          overflow: "hidden",
-          minWidth: collapsed ? 0 : 220,
-          maxWidth: collapsed ? 0 : 320,
-          bgcolor: "background.paper",
-          position: "relative",
-        }}
-      >
-        <Box
-          sx={{
-            height: "100%",
-            p: 2,
-            display: collapsed ? "none" : "block",
-          }}
-        >
-          <FiltersPanel
-            eventTypeOptions={eventTypeOptions}
-            sourceCountriesOptions={sourceCountriesOptions}
-          />
-        </Box>
+    <Grid container direction="row" spacing={2} sx={{ p: 2 }}>
+      {/* Filter panel at top */}
+      <Grid size={{ xs: 12 }} sx={{ bgcolor: "background.paper" }}>
+        <FiltersPanel
+          eventTypeOptions={eventTypeOptions}
+          sourceCountriesOptions={sourceCountriesOptions}
+        />
       </Grid>
-      {/* Right content grows when collapsed */}
-      <Grid
-        size={{
-          xs: 12,
-          sm: collapsed ? 12 : 10,
-          md: collapsed ? 12 : 10,
-          lg: collapsed ? 12 : 10,
-        }}
-        sx={{ transition: "all 0.3s", height: "100%", position: "relative" }}
-      >
-        {/* Always visible collapse/expand icon */}
-        <IconButton
-          onClick={() => setCollapsed((c) => !c)}
-          sx={{
-            position: "absolute",
-            top: 16,
-            left: 0,
-            bgcolor: "background.paper",
-            borderRadius: 1,
-            boxShadow: 2,
-            zIndex: 10,
-          }}
-        >
-          {!collapsed ? (
-            <FontAwesomeIcon icon={faArrowLeft} color="#1976d2" />
-          ) : (
-            <FontAwesomeIcon icon={faArrowRight} color="#1976d2" />
-          )}
-        </IconButton>
-        <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-          <Box sx={{ flex: 1, marginTop: 2 }}>
-            <Dashboard
-              loading={eventSummaryLoading}
-              data={summaryData}
-              error={eventSummaryError}
-            />
-          </Box>
-          <Box sx={{ flex: 1 }}>
-            <DataTable
-              loading={eventsLoading}
-              error={eventsError}
-              data={events}
-            />
-          </Box>
-        </Box>
+
+      {/* DataTable at bottom */}
+      <Grid size={{ xs: 12 }}>
+        <DataTable loading={eventsLoading} error={eventsError} data={events} />
+      </Grid>
+
+      {/* Dashboard below filter panel */}
+      <Grid size={{ xs: 12 }} sx={{ marginY: 2 }}>
+        <Dashboard
+          loading={eventSummaryLoading}
+          data={summaryData}
+          error={eventSummaryError}
+        />
       </Grid>
     </Grid>
   );

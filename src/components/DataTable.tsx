@@ -116,11 +116,13 @@ export const DataTable = (props: DataTableProps) => {
       headerName: "Timestamp",
       flex: 1,
       valueGetter: (timestamp) => {
-        return new Date(timestamp).getTime();
+        if (!timestamp) return "";
+        const date = new Date(timestamp);
+        return isNaN(date.getTime()) ? "" : date.getTime();
       },
       renderCell: (params) => {
         const date = new Date(params.row.timestamp);
-        return date.toLocaleString();
+        return isNaN(date.getTime()) ? "" : date.toLocaleString();
       },
     },
     {
@@ -261,11 +263,21 @@ export const DataTable = (props: DataTableProps) => {
     },
   ];
 
+  function DataGridTitle() {
+    return (
+      <Box
+        style={{
+          width: "100%",
+        }}
+      >
+        <Typography variant="h6">Security Events</Typography>
+      </Box>
+    );
+  }
+
   return (
     <div style={{ height: 450, width: "100%" }}>
-      <Typography variant="h6" gutterBottom>
-        Security Events
-      </Typography>
+      <DataGridTitle />,
       <DataGrid
         rows={filteredRows}
         columns={columns}

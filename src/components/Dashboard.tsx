@@ -5,6 +5,8 @@ import { useFilters } from "../FilterContext";
 import { useMemo } from "react";
 import { aggregateEventsByHour } from "../utils";
 
+import { SeverityPieD3, SeverityDatum } from "./d3Map/PieChart";
+
 type SecurityEvent = {
   id: string;
   source: string;
@@ -110,35 +112,108 @@ export const Dashboard = (props: DashboardProps) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <Grid container spacing={1} sx={{ mb: 2, minHeight: 400 }}>
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        mb: 2,
+
+        justifyContent: "center",
+        alignItems: "stretch",
+      }}
+    >
+      {/* GeoMap left, ratio 6 */}
       <Grid
         size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
         sx={{
           alignItems: "center",
           justifyContent: "center",
-          minHeight: 350,
         }}
       >
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="h6">GeoMap</Typography>
+        <Box
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 2,
+            backgroundColor: "background.paper",
+            boxShadow: 1,
+            p: 4,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">
+              Geographic Origins of Suspicious Traffic
+            </Typography>
+          </Box>
+          <GeoMap
+            countriesData={geoData.countriesData}
+            activeCountries={geoData.activeCountries}
+          />
         </Box>
-        <GeoMap
-          countriesData={geoData.countriesData}
-          activeCountries={geoData.activeCountries}
-        />
       </Grid>
+      {/* TimeSeries right, ratio 3 */}
       <Grid
-        size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
+        size={{ xs: 12, sm: 3, md: 3, lg: 3 }}
         sx={{
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: 350,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="h6">Time Series Severity Chart</Typography>
+        <Box
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 2,
+            backgroundColor: "background.paper",
+            boxShadow: 1,
+            p: 4,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">Time Series Severity Chart</Typography>
+          </Box>
+          <TimeSeriesSeverityChart data={eventTimeline} />
         </Box>
-        <TimeSeriesSeverityChart data={eventTimeline} />
+      </Grid>
+      {/* PieChart right, ratio 3 */}
+      <Grid
+        size={{ xs: 12, sm: 3, md: 3, lg: 3 }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Box
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 2,
+            backgroundColor: "background.paper",
+            boxShadow: 1,
+            p: 4,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6">Severity Distribution</Typography>
+          </Box>
+          <SeverityPieD3
+            data={[
+              { label: "Critical", value: 4, color: "#d32f2f" },
+              { label: "High", value: 7, color: "#fbc02d" },
+              { label: "Medium", value: 6, color: "#1976d2" },
+              { label: "Low", value: 3, color: "#388e3c" },
+            ]}
+          />
+        </Box>
       </Grid>
     </Grid>
   );

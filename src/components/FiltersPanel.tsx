@@ -34,7 +34,7 @@ export const FiltersPanel = React.memo(function FiltersPanel({
           renderValue: (value) => (value === "" ? "All" : String(value)),
         }}
         InputLabelProps={{ shrink: true }}
-        sx={{ width: 150, "& .MuiInputBase-input": { textAlign: "left" } }}
+        sx={{ width: 180, "& .MuiInputBase-input": { textAlign: "left" } }}
       >
         <MenuItem value="">All</MenuItem>
         {severityOptions.map((sev) => (

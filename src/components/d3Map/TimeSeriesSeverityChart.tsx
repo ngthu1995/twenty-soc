@@ -110,12 +110,58 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
     });
 
     // X axis
+    // Set ticks to every hour
+    const xDomain = x.domain();
+    let hourTicks: Date[] = [];
+    if (
+      xDomain &&
+      xDomain[0] instanceof Date &&
+      xDomain[1] instanceof Date &&
+      xDomain[0] !== null &&
+      xDomain[1] !== null
+    ) {
+      hourTicks = d3.timeHour.every(1)!.range(xDomain[0], xDomain[1]);
+      // Ensure last tick is included
+      const lastTick = hourTicks[hourTicks.length - 1];
+      const endTime = xDomain[1];
+      if (lastTick.getTime() < endTime.getTime()) {
+        hourTicks.push(
+          new Date(
+            endTime.getFullYear(),
+            endTime.getMonth(),
+            endTime.getDate(),
+            endTime.getHours(),
+            0,
+            0,
+            0
+          )
+        );
+      }
+    }
     g.append("g")
       .attr("transform", `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%H:%M") as any));
+      .call(
+        d3
+          .axisBottom(x)
+          .ticks(Math.max(hourTicks.length, 8))
+          .tickValues(hourTicks)
+          .tickFormat(d3.timeFormat("%H:%M") as any)
+      );
 
     // Y axis
-    g.append("g").call(d3.axisLeft(y));
+    const maxY = d3.max(data, (d) => d.Total) ?? 1;
+    g.append("g").call(
+      d3
+        .axisLeft(y)
+        .ticks(Math.ceil(maxY))
+        .tickFormat((domainValue, _i) => {
+          const n =
+            typeof domainValue === "number"
+              ? domainValue
+              : Number(domainValue.valueOf());
+          return Number.isInteger(n) ? n.toString() : "";
+        })
+    );
 
     // Axis labels
     g.append("text")
@@ -146,35 +192,37 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
   ];
 
   return (
-    <div>
-      <svg ref={svgRef}></svg>
+    <div style={{ width: "100%", position: "relative" }}>
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          gap: 24,
-          marginTop: 16,
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: 12,
+          marginBottom: 4,
+          fontSize: 12,
         }}
       >
         {legendItems.map((item) => (
           <div
             key={item.key}
-            style={{ display: "flex", alignItems: "center", gap: 6 }}
+            style={{ display: "flex", alignItems: "center", gap: 4 }}
           >
             <span
               style={{
-                width: 16,
-                height: 16,
+                width: 10,
+                height: 10,
                 background: item.color,
                 display: "inline-block",
-                borderRadius: 3,
-                marginRight: 4,
+                borderRadius: 2,
+                marginRight: 2,
               }}
             />
-            <span style={{ fontSize: 14 }}>{item.label}</span>
+            <span style={{ fontSize: 12 }}>{item.label}</span>
           </div>
         ))}
       </div>
+      <svg ref={svgRef}></svg>
     </div>
   );
 };

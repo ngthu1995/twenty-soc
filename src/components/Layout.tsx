@@ -99,7 +99,7 @@ export const Layout1 = () => {
   }, [events]);
 
   return (
-    <Grid container sx={{ height: "100vh", padding: 5 }} spacing={2}>
+    <Grid container sx={{ height: "100vh" }} spacing={2}>
       {/* Collapsible left panel */}
       <Grid
         size={{ xs: collapsed ? 0 : 12, md: collapsed ? 0 : 2 }}

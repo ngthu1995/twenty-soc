@@ -322,9 +322,9 @@ export const DataTable = (props: DataTableProps) => {
         checkboxSelection
         rows={filteredRows}
         columns={columns}
-        // getRowClassName={(params) =>
-        //   params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
-        // }
+        getRowClassName={(params) =>
+          params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+        }
         initialState={{
           sorting: {
             sortModel: [{ field: "timestamp", sort: "desc" }],

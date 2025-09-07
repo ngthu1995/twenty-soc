@@ -1,6 +1,6 @@
 import { GeoMap } from "./d3Map/GeoMap";
 import { TimeSeriesSeverityChart } from "./d3Map/TimeSeriesSeverityChart";
-import { Grid } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 import { useFilters } from "../FilterContext";
 import { useMemo } from "react";
 import { aggregateEventsByHour } from "../utils";
@@ -9,8 +9,7 @@ type SecurityEvent = {
   id: string;
   source: string;
   severity: "Critical" | "High" | "Medium" | "Low";
-  timestamp: string; // ISO string
-  // Add other relevant fields as needed
+  timestamp: string;
 };
 
 type DashboardProps = {
@@ -120,6 +119,9 @@ export const Dashboard = (props: DashboardProps) => {
           minHeight: 350,
         }}
       >
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h6">GeoMap</Typography>
+        </Box>
         <GeoMap
           countriesData={geoData.countriesData}
           activeCountries={geoData.activeCountries}
@@ -133,6 +135,9 @@ export const Dashboard = (props: DashboardProps) => {
           minHeight: 350,
         }}
       >
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h6">Time Series Severity Chart</Typography>
+        </Box>
         <TimeSeriesSeverityChart data={eventTimeline} />
       </Grid>
     </Grid>

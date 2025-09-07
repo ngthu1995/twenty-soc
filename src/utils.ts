@@ -36,9 +36,8 @@ export const eventTypeOptions = [
 ];
 
 type SecurityEvent = {
-  timestamp: string; // ISO string
+  timestamp: string;
   severity: "Critical" | "High" | "Medium" | "Low";
-  // ...other fields
 };
 
 type TimeSeriesBucket = {

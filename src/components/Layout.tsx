@@ -164,13 +164,14 @@ export const Layout1 = () => {
           )}
         </IconButton>
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-          <Dashboard
-            loading={eventSummaryLoading}
-            data={summaryData}
-            error={eventSummaryError}
-          />
-
-          <Box sx={{ flex: 2, minHeight: 300 }}>
+          <Box sx={{ flex: 1, marginTop: 2 }}>
+            <Dashboard
+              loading={eventSummaryLoading}
+              data={summaryData}
+              error={eventSummaryError}
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
             <DataTable
               loading={eventsLoading}
               error={eventsError}

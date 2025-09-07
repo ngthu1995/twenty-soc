@@ -262,7 +262,7 @@ export const DataTable = (props: DataTableProps) => {
   ];
 
   return (
-    <div style={{ height: 650, width: "100%" }}>
+    <div style={{ height: 450, width: "100%" }}>
       <Typography variant="h6" gutterBottom>
         Security Events
       </Typography>

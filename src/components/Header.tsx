@@ -10,18 +10,17 @@ export const SOCHeader = () => {
         justifyContent: "leftalign",
         bgcolor: "black",
         color: "primary.contrastText",
-        px: 3,
-        py: 1,
+
         boxShadow: 2,
-        mb: 3,
+        mb: 1,
       }}
     >
       <img
         src={twentyLogo}
         alt="Twenty Logo"
-        style={{ height: 48, margin: 10 }}
+        style={{ height: 36, margin: 10 }}
       />
-      <Typography variant="subtitle1" fontWeight="bold">
+      <Typography variant="subtitle2" fontWeight="bold">
         Security Operations Center (SOC) Dashboard
       </Typography>
     </Box>

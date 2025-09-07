@@ -114,7 +114,7 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "timestamp",
       headerName: "Timestamp",
-      flex: 1,
+
       valueGetter: (timestamp) => {
         if (!timestamp) return "";
         const date = new Date(timestamp);
@@ -128,7 +128,7 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "eventType",
       headerName: "Event Type",
-      flex: 1,
+
       renderCell: (params) => {
         const { eventType, subType } = params.row;
 
@@ -143,7 +143,7 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "severity",
       headerName: "Severity",
-      flex: 1,
+
       renderCell: (params) => {
         return (
           <div
@@ -175,11 +175,11 @@ export const DataTable = (props: DataTableProps) => {
         );
       },
     },
-    { field: "system", headerName: "System", flex: 1 },
+    { field: "system", headerName: "System" },
     {
       field: "source",
       headerName: "Source Country",
-      flex: 1,
+
       renderCell: (params) => {
         const countryName = params.row.location.country;
         const foundCountry = countries.find(
@@ -192,11 +192,11 @@ export const DataTable = (props: DataTableProps) => {
         );
       },
     },
-    { field: "destinationIp", headerName: "Destination IP", flex: 1 },
+    { field: "destinationIp", headerName: "Destination IP" },
     {
       field: "userId",
       headerName: "User",
-      flex: 1,
+
       valueGetter: (value) => {
         if (!value) return "-";
         return value;
@@ -205,7 +205,7 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "status",
       headerName: "Status",
-      flex: 1,
+
       renderCell: (params) => {
         return (
           <Chip
@@ -226,69 +226,64 @@ export const DataTable = (props: DataTableProps) => {
       field: "actions",
       headerName: "Quick Actions",
       flex: 1,
-      renderCell: (params) => (
-        <div
-        // style={{
-        //   display: "flex",
-        //   alignItems: "center",
-        //   justifyContent: "center",
-        //   flexDirection: "row",
-        //   width: "100%",
-        //   height: "100%",
-        // }}
-        >
-          <Tooltip
-            title={
-              acknowledgedRows[params.row.id]
-                ? "Alert acknowledged"
-                : "Acknowledge this alert"
-            }
-          >
-            <Button
-              size="large"
-              disableRipple={true}
-              onClick={() => {
-                setAcknowledgedRows((prev) => ({
-                  ...prev,
-                  [params.row.id]: true,
-                }));
-              }}
+      renderCell: (params) => {
+        const isEscalated = escalatedRows[params.row.id];
+        const isAcknowledged = acknowledgedRows[params.row.id];
+        return (
+          <div>
+            <Tooltip
+              title={
+                isAcknowledged ? "Alert acknowledged" : "Acknowledge this alert"
+              }
             >
-              <FontAwesomeIcon
-                icon={faCheck}
-                color={acknowledgedRows[params.row.id] ? "primary" : "grey"}
-              />
-              <Typography>Acknowledge</Typography>
-            </Button>
-          </Tooltip>
-          <Tooltip
-            title={
-              acknowledgedRows[params.row.id]
-                ? "Alert escalated"
-                : "Escalate this alert"
-            }
-          >
-            <Button
-              size="large"
-              disableRipple={true}
-              onClick={() => {
-                setEscalatedRows((prev) => ({
-                  ...prev,
-                  [params.row.id]: true,
-                }));
-              }}
+              <span style={{ display: "inline-block", marginRight: 8 }}>
+                <Button
+                  size="large"
+                  disableRipple={true}
+                  color="success"
+                  variant="outlined"
+                  disabled={isAcknowledged}
+                  onClick={() => {
+                    setAcknowledgedRows((prev) => ({
+                      ...prev,
+                      [params.row.id]: true,
+                    }));
+                  }}
+                >
+                  <Typography>
+                    {isAcknowledged ? "Acknowledged" : "Acknowledge"}
+                  </Typography>
+                </Button>
+              </span>
+            </Tooltip>
+            <Tooltip
+              title={isEscalated ? "Alert escalated" : "Escalate this alert"}
             >
-              <FontAwesomeIcon
-                icon={faAnglesUp}
-                color={escalatedRows[params.row.id] ? "primary" : "grey"}
-              />
+              <span style={{ display: "inline-block" }}>
+                <Button
+                  size="large"
+                  variant="outlined"
+                  disabled={isEscalated}
+                  disableRipple={true}
+                  onClick={() => {
+                    setEscalatedRows((prev) => ({
+                      ...prev,
+                      [params.row.id]: true,
+                    }));
+                  }}
+                >
+                  <Typography>
+                    {isEscalated ? "Escalated" : "Escalate"}
+                  </Typography>
+                </Button>
+              </span>
+            </Tooltip>
+            <Button size="large" onClick={() => handleOpenDialog(params.row)}>
+              <FontAwesomeIcon icon={faInfo} color="primary" />
             </Button>
-          </Tooltip>
-          <Button size="large" onClick={() => handleOpenDialog(params.row)}>
-            <FontAwesomeIcon icon={faInfo} color="primary" />
-          </Button>
-        </div>
-      ),
+          </div>
+        );
+      },
     },
   ];
 
@@ -309,8 +304,9 @@ export const DataTable = (props: DataTableProps) => {
           },
         }}
         slots={{
-          columnMenu: (props) => null,
+          columnMenu: () => null,
         }}
+        sx={{ overflowX: "scroll" }}
         onRowSelectionModelChange={setselectedRows}
       />
       <SOCDialog

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useFilters } from "../../context/FilterContext";
+import { useTheme } from "@mui/material/styles";
 
 interface CountryData {
   country: string;
@@ -24,9 +25,8 @@ export const GeoMap: React.FC<MapProps> = ({
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [geoData, setGeoData] = useState<any | null>(null);
-
   const { setActiveFilterColumns } = useFilters();
-
+  const theme = useTheme();
   const width = 520;
   const height = 400;
 
@@ -111,13 +111,14 @@ export const GeoMap: React.FC<MapProps> = ({
               `<strong>${d.properties.name}</strong><br/>Events: ${record.count}`
             )
             .style("left", left + "px")
-            .style("top", top + "px");
+            .style("top", top + "px")
+            .style("color", theme.palette.mode === "dark" ? "#fff" : "#222");
         }
       })
       .on("mouseout", function () {
         d3.select("#tooltip").style("opacity", 0);
       });
-  }, [geoData, countriesData, activeCountries, width, height]);
+  }, [geoData, countriesData, activeCountries, width, height, theme]);
 
   return (
     <div style={{ position: "relative" }}>

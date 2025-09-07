@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { severityColors } from "../../shared/utils";
+import { useTheme } from "@mui/material/styles";
 
 type DataPoint = {
   time: Date;
@@ -16,6 +17,8 @@ type Props = {
   width?: number;
   height?: number;
 };
+
+const totalColor = "#FF00FF";
 
 export const TimeSeriesSeverityChart: React.FC<Props> = ({
   data,
@@ -60,7 +63,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
     const color = d3
       .scaleOrdinal<string>()
       .domain(Object.keys(severityColors).concat("Total"))
-      .range(Object.values(severityColors).concat("#000000"));
+      .range(Object.values(severityColors).concat(totalColor));
 
     // Define series
     const series = [
@@ -84,7 +87,10 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
             .attr("x2", xPos)
             .attr("y1", y.domain()[0])
             .attr("y2", yPos)
-            .attr("stroke", color(s.key) as string)
+            .attr(
+              "stroke",
+              s.key === "Total" ? totalColor : (color(s.key) as string)
+            )
             .attr("stroke-width", s.key === "Total" ? 3 : 2);
 
           // Draw dot at the data point
@@ -104,8 +110,11 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
         g.append("path")
           .datum(data)
           .attr("fill", "none")
-          .attr("stroke", color(s.key) as string)
-          .attr("stroke-width", s.key === "Total" ? 3 : 2)
+          .attr(
+            "stroke",
+            s.key === "Total" ? totalColor : (color(s.key) as string)
+          )
+          .attr("stroke-width", 2)
           .attr("d", lineGen);
       }
     });
@@ -175,6 +184,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
       .attr("x", innerWidth / 2)
       .attr("y", innerHeight + 35)
       .attr("text-anchor", "middle")
+      .style("fill", "#222")
       .text("Time");
 
     g.append("text")
@@ -182,6 +192,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
       .attr("y", -20)
       .attr("transform", "rotate(-90)")
       .attr("text-anchor", "middle")
+      .style("fill", "#222")
       .text("Event Count");
   }, [data, width, height]);
 
@@ -194,7 +205,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
   const legendItems = legendKeys.map((key) => ({
     key,
     label: key,
-    color: (severityColors[key] as string) || "#000000",
+    color: (severityColors[key] as string) || totalColor,
   }));
 
   return (

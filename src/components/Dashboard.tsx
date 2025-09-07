@@ -1,6 +1,6 @@
 import { GeoMap } from "./d3Map/GeoMap";
 import { TimeSeriesSeverityChart } from "./d3Map/TimeSeriesSeverityChart";
-import { Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useFilters } from "../FilterContext";
 import { useMemo } from "react";
 import { aggregateEventsByHour } from "../utils";
@@ -108,18 +108,33 @@ export const Dashboard = (props: DashboardProps) => {
     return aggregateEventsByHour(filteredSecurityEvents);
   }, [data, filteredEvents, activeFilterColumns]);
 
-  console.log("🚀 ~ Dashboard ~ eventTimeline:", eventTimeline);
-
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <Box sx={{ flex: 1, mb: 2, display: "flex", gap: 2 }}>
-      <GeoMap
-        countriesData={geoData.countriesData}
-        activeCountries={geoData.activeCountries}
-      />
-
-      <TimeSeriesSeverityChart data={eventTimeline} />
-    </Box>
+    <Grid container spacing={1} sx={{ mb: 2, minHeight: 400 }}>
+      <Grid
+        size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
+        sx={{
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: 350,
+        }}
+      >
+        <GeoMap
+          countriesData={geoData.countriesData}
+          activeCountries={geoData.activeCountries}
+        />
+      </Grid>
+      <Grid
+        size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
+        sx={{
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: 350,
+        }}
+      >
+        <TimeSeriesSeverityChart data={eventTimeline} />
+      </Grid>
+    </Grid>
   );
 };

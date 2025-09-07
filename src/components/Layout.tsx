@@ -99,10 +99,19 @@ export const Layout1 = () => {
   }, [events]);
 
   return (
-    <Grid container sx={{ height: "100vh" }} spacing={2}>
+    <Grid
+      container
+      sx={{ height: "100vh", flexDirection: "column" }}
+      direction={{ xs: "row", sm: "column", md: "column" }}
+      spacing={2}
+    >
       {/* Collapsible left panel */}
       <Grid
-        size={{ xs: collapsed ? 0 : 12, md: collapsed ? 0 : 2 }}
+        size={{
+          xs: collapsed ? 0 : 12,
+          sm: collapsed ? 0 : 2,
+          md: collapsed ? 0 : 2,
+        }}
         sx={{
           transition: "all 0.3s",
           overflow: "hidden",
@@ -127,7 +136,12 @@ export const Layout1 = () => {
       </Grid>
       {/* Right content grows when collapsed */}
       <Grid
-        size={{ xs: 12, md: collapsed ? 12 : 10 }}
+        size={{
+          xs: 12,
+          sm: collapsed ? 12 : 10,
+          md: collapsed ? 12 : 10,
+          lg: collapsed ? 12 : 10,
+        }}
         sx={{ transition: "all 0.3s", height: "100%", position: "relative" }}
       >
         {/* Always visible collapse/expand icon */}

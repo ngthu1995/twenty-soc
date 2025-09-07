@@ -27,8 +27,8 @@ export const GeoMap: React.FC<MapProps> = ({
 
   const { setActiveFilterColumns } = useFilters();
 
-  const width = 800;
-  const height = 500;
+  const width = 520;
+  const height = 400;
 
   // Fetch GeoJSON
   useEffect(() => {
@@ -47,7 +47,7 @@ export const GeoMap: React.FC<MapProps> = ({
     // Projection & path
     const projection = d3
       .geoMercator()
-      .scale(120)
+      .scale(80)
       .translate([width / 2, height / 1.5]);
     const path = d3.geoPath().projection(projection);
 

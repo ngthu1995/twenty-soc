@@ -192,7 +192,7 @@ export const TimeSeriesSeverityChart: React.FC<Props> = ({
   ];
 
   return (
-    <div style={{ width: "100%", position: "relative" }}>
+    <div style={{ position: "relative" }}>
       <div
         style={{
           display: "flex",

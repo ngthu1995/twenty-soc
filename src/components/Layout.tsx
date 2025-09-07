@@ -77,7 +77,7 @@ export const Layout1 = () => {
 
   const summaryData = useMemo(() => {
     if (!eventSummary) return [];
-    return camelizeKeys(eventSummary as any).securityEventSummary;
+    return camelizeKeys(eventSummary as any);
   }, [eventSummary]);
 
   const eventTypeOptions = useMemo(() => {

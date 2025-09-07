@@ -46,14 +46,14 @@ export const DataTable = (props: DataTableProps) => {
 
   useEffect(() => {
     if (!data) return;
-    const updatedRows = camelizeKeys(data as any).securityEvents.map(
-      (item: any, i: number) => ({
+    const updatedRows = camelizeKeys(data as any)
+      .securityEvents?.filter((item: any) => item.eventId)
+      .map((item: any, i: number) => ({
         ...item,
         id: item.eventId,
         source: item?.location?.country,
         system: item?.source,
-      })
-    );
+      }));
     setRows(updatedRows);
   }, [data]);
 

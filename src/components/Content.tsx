@@ -1,14 +1,17 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { FiltersPanel } from "./FiltersPanel";
 import { DataTable } from "./DataTable";
-import { GET_SECURITY_EVENTS, GET_SECURITY_EVENT_SUMMARY } from "../queries";
+import {
+  GET_SECURITY_EVENTS,
+  GET_SECURITY_EVENT_SUMMARY,
+} from "../apollo/queries";
 import { useQuery } from "@apollo/client/react";
 import summaryMockData from "../assets/Aggregate.json";
 import eventsMockData from "../assets/SecurityEventsData.json";
 import { MockedProvider } from "@apollo/client/testing/react";
 import { Dashboard } from "./Dashboard";
-import { camelizeKeys } from "../utils";
+import { camelizeKeys } from "../shared/utils";
 
 const mocks = [
   {

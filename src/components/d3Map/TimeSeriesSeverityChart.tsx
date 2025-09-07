@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { severityColors } from "../../utils";
+import { severityColors } from "../../shared/utils";
 
 type DataPoint = {
   time: Date;

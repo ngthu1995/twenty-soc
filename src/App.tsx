@@ -1,9 +1,8 @@
-import "./App.css";
 import { ApolloProvider } from "@apollo/client/react";
 import { InMemoryCache, HttpLink, ApolloClient } from "@apollo/client";
 import { Header } from "./components/Header";
 import { Content } from "./components/Content";
-import { FilterProvider } from "./FilterContext";
+import { FilterProvider } from "./context/FilterContext";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";

@@ -1,14 +1,14 @@
 import { GeoMap } from "./d3Map/GeoMap";
 import { TimeSeriesSeverityChart } from "./d3Map/TimeSeriesSeverityChart";
 import { Grid, Typography, Box } from "@mui/material";
-import { useFilters } from "../FilterContext";
+import { useFilters } from "../context/FilterContext";
 import { useMemo } from "react";
 import {
   aggregateEventsByHour,
   getSeverityPieData,
   getOtherStat,
-} from "../utils";
-import { severityOptions } from "../utils";
+} from "../shared/utils";
+import { severityOptions } from "../shared/utils";
 
 import { SeverityPieD3, SeverityDatum } from "./d3Map/PieChart";
 import { StatCard } from "./StatCard";

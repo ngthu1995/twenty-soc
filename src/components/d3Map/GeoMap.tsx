@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import { useFilters } from "../../FilterContext";
+import { useFilters } from "../../context/FilterContext";
 
 interface CountryData {
   country: string;

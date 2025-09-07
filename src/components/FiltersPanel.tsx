@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, TextField, MenuItem, Button } from "@mui/material";
-import { severityOptions } from "../utils";
-import { defaultFilterState, useFilters } from "../FilterContext";
+import { severityOptions } from "../shared/utils";
+import { defaultFilterState, useFilters } from "../context/FilterContext";
 import { countries } from "../assets/countryCodes";
 
 type FitersPanelProps = {

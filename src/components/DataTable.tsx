@@ -2,9 +2,9 @@ import { useMemo, useState, useEffect } from "react";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Typography, Box, Tooltip, Chip } from "@mui/material";
-import { useFilters } from "../FilterContext";
+import { useFilters } from "../context/FilterContext";
 
-import { camelizeKeys, severityColors } from "../utils";
+import { camelizeKeys, severityColors } from "../shared/utils";
 import { countries } from "../assets/countryCodes";
 import { SOCDialog } from "./Dialog";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";

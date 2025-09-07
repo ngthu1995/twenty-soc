@@ -3,7 +3,7 @@ import {
   getSeverityPieData,
   getOtherStat,
   SecurityEvent,
-} from "./utils";
+} from "../utils";
 
 describe("aggregateEventsByHour", () => {
   it("returns empty array for no events", () => {

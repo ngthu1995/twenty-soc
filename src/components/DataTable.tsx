@@ -19,20 +19,27 @@ type DataTableProps = {
 
 export const DataTable = (props: DataTableProps) => {
   const { loading, error, data } = props;
+  const { activeFilterColumns, setSelectedEvents, setFilteredEvents } =
+    useFilters();
+  const { severity, eventType, source, startDate, endDate } =
+    activeFilterColumns;
+
+  // total events from API
+  const [events, setEvents] = useState<any[]>([]);
+
+  // selected event for dialog
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+
+  // selected rows for bulk actions
+  const [selectedRows, setSelectedRows] = useState<any>(null);
+
   const [acknowledgedRows, setAcknowledgedRows] = useState<
     Record<number, boolean>
   >({});
   const [escalatedRows, setEscalatedRows] = useState<Record<number, boolean>>(
     {}
   );
-
   const [open, setOpen] = useState(false);
-  const [rows, setRows] = useState<any[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
-  const [selectedRows, setselectedRows] = useState<any>(null);
-
-  const { activeFilterColumns, setSelectedEvents, setFilteredEvents } =
-    useFilters();
 
   const handleOpenDialog = (row: any) => {
     setSelectedEvent(row);
@@ -54,11 +61,11 @@ export const DataTable = (props: DataTableProps) => {
         source: item?.location?.country,
         system: item?.source,
       }));
-    setRows(updatedRows);
+    setEvents(updatedRows);
   }, [data]);
 
   useEffect(() => {
-    const selectedEvents = rows.filter((row) =>
+    const selectedEvents = events.filter((row) =>
       (selectedRows as any).ids.has(row.eventId)
     );
 
@@ -66,49 +73,31 @@ export const DataTable = (props: DataTableProps) => {
   }, [selectedRows]);
 
   const filteredRows = useMemo(() => {
-    if (!rows) return [];
+    if (!events) return [];
+
     if (
-      !activeFilterColumns.severity &&
-      !activeFilterColumns.eventType &&
-      !activeFilterColumns.source &&
-      !activeFilterColumns.startDate &&
+      !severity &&
+      !eventType &&
+      !source &&
+      !startDate &&
       !activeFilterColumns.endDate
     )
-      return rows;
-    return rows.filter((row) => {
-      const inSeverity =
-        !activeFilterColumns.severity ||
-        row.severity === activeFilterColumns.severity;
-      const inType =
-        !activeFilterColumns.eventType ||
-        row.eventType === activeFilterColumns.eventType;
+      return events;
+    return events.filter((row) => {
+      const inSeverity = !severity || row.severity === severity;
+      const inType = !eventType || row.eventType === eventType;
       const inSource =
-        !activeFilterColumns.source ||
-        row.source
-          .toLowerCase()
-          .includes(activeFilterColumns.source.toLowerCase());
+        !source || row.source.toLowerCase().includes(source.toLowerCase());
       const inDateRange =
-        (!activeFilterColumns.startDate ||
-          dayjs(row.timestamp).isAfter(dayjs(activeFilterColumns.startDate))) &&
-        (!activeFilterColumns.endDate ||
-          dayjs(row.timestamp).isBefore(dayjs(activeFilterColumns.endDate)));
+        (!startDate || dayjs(row.timestamp).isAfter(dayjs(startDate))) &&
+        (!endDate || dayjs(row.timestamp).isBefore(dayjs(endDate)));
       return inSeverity && inType && inSource && inDateRange;
     });
-  }, [
-    activeFilterColumns.severity,
-    activeFilterColumns.eventType,
-    activeFilterColumns.source,
-    activeFilterColumns.startDate,
-    activeFilterColumns.endDate,
-    rows,
-  ]);
+  }, [severity, eventType, source, startDate, endDate, events]);
 
   useEffect(() => {
     setFilteredEvents(filteredRows);
   }, [filteredRows]);
-
-  if (loading) return <p>Loading events...</p>;
-  if (error) return <p>Error: {error.message}</p>;
 
   const columns: GridColDef[] = [
     {
@@ -324,6 +313,9 @@ export const DataTable = (props: DataTableProps) => {
     },
   ];
 
+  if (loading) return <p>Loading events...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <div style={{ width: "100%" }}>
       <DataGrid
@@ -347,7 +339,7 @@ export const DataTable = (props: DataTableProps) => {
         slots={{
           columnMenu: () => null,
         }}
-        onRowSelectionModelChange={setselectedRows}
+        onRowSelectionModelChange={setSelectedRows}
       />
       <SOCDialog
         selectedEvent={selectedEvent}

@@ -57,7 +57,7 @@ const mocks = [
   },
 ];
 
-export const Layout1 = () => {
+export const Content1 = () => {
   const {
     loading: eventsLoading,
     error: eventsError,
@@ -134,10 +134,10 @@ export const Layout1 = () => {
   );
 };
 
-export const Layout = () => {
+export const Content = () => {
   return (
     <MockedProvider mocks={mocks}>
-      <Layout1 />
+      <Content1 />
     </MockedProvider>
   );
 };

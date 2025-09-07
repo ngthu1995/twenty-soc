@@ -114,7 +114,8 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "timestamp",
       headerName: "Timestamp",
-
+      flex: 1.5,
+      minWidth: 150,
       valueGetter: (timestamp) => {
         if (!timestamp) return "";
         const date = new Date(timestamp);
@@ -128,10 +129,10 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "eventType",
       headerName: "Event Type",
-
+      flex: 1,
+      minWidth: 90,
       renderCell: (params) => {
         const { eventType, subType } = params.row;
-
         return (
           <div>
             <Typography>{eventType}</Typography>
@@ -143,7 +144,10 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "severity",
       headerName: "Severity",
-
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+      minWidth: 80,
       renderCell: (params) => {
         return (
           <div
@@ -175,10 +179,21 @@ export const DataTable = (props: DataTableProps) => {
         );
       },
     },
-    { field: "system", headerName: "System" },
+    {
+      field: "system",
+      headerName: "System",
+      headerAlign: "left",
+      align: "left",
+      flex: 0.5,
+      minWidth: 80,
+    },
     {
       field: "source",
-      headerName: "Source Country",
+      headerName: "Country",
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+      minWidth: 120,
 
       renderCell: (params) => {
         const countryName = params.row.location.country;
@@ -192,11 +207,21 @@ export const DataTable = (props: DataTableProps) => {
         );
       },
     },
-    { field: "destinationIp", headerName: "Destination IP" },
+    {
+      field: "destinationIp",
+      headerName: "Destination IP",
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+      minWidth: 80,
+    },
     {
       field: "userId",
       headerName: "User",
-
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+      minWidth: 100,
       valueGetter: (value) => {
         if (!value) return "-";
         return value;
@@ -205,7 +230,10 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "status",
       headerName: "Status",
-
+      headerAlign: "left",
+      align: "left",
+      flex: 1,
+      minWidth: 100,
       renderCell: (params) => {
         return (
           <Chip
@@ -225,7 +253,10 @@ export const DataTable = (props: DataTableProps) => {
     {
       field: "actions",
       headerName: "Quick Actions",
-      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      flex: 1.5,
+      minWidth: 350,
       renderCell: (params) => {
         const isEscalated = escalatedRows[params.row.id];
         const isAcknowledged = acknowledgedRows[params.row.id];
@@ -259,7 +290,7 @@ export const DataTable = (props: DataTableProps) => {
             <Tooltip
               title={isEscalated ? "Alert escalated" : "Escalate this alert"}
             >
-              <span style={{ display: "inline-block" }}>
+              <span style={{ display: "inline-block", marginRight: 8 }}>
                 <Button
                   size="large"
                   variant="outlined"
@@ -278,7 +309,13 @@ export const DataTable = (props: DataTableProps) => {
                 </Button>
               </span>
             </Tooltip>
-            <Button size="large" onClick={() => handleOpenDialog(params.row)}>
+            <Button
+              size="large"
+              disableRipple={true}
+              color="success"
+              variant="outlined"
+              onClick={() => handleOpenDialog(params.row)}
+            >
               <FontAwesomeIcon icon={faInfo} color="primary" />
             </Button>
           </div>
@@ -288,25 +325,28 @@ export const DataTable = (props: DataTableProps) => {
   ];
 
   return (
-    <div style={{ overflowX: "auto" }}>
+    <div style={{ width: "100%" }}>
       <DataGrid
+        checkboxSelection
         rows={filteredRows}
         columns={columns}
-        pagination
-        checkboxSelection
-        disableColumnFilter={true}
-        disableColumnMenu={true}
-        disableRowSelectionOnClick
-        rowBufferPx={600}
+        // getRowClassName={(params) =>
+        //   params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+        // }
         initialState={{
           sorting: {
             sortModel: [{ field: "timestamp", sort: "desc" }],
           },
+          pagination: { paginationModel: { pageSize: 20 } },
         }}
+        pageSizeOptions={[10, 20, 50]}
+        disableColumnFilter={true}
+        disableColumnMenu={true}
+        disableRowSelectionOnClick
+        rowBufferPx={600}
         slots={{
           columnMenu: () => null,
         }}
-        sx={{ overflowX: "scroll" }}
         onRowSelectionModelChange={setselectedRows}
       />
       <SOCDialog

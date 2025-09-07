@@ -137,6 +137,10 @@ export const Dashboard = (props: DashboardProps) => {
           title: "Total Countries Affected",
           value: 0,
         },
+        {
+          title: "Alert Status",
+          value: 0,
+        },
       ];
     const userSet = new Set();
     const countrySet = new Set();
@@ -203,15 +207,14 @@ export const Dashboard = (props: DashboardProps) => {
             border: "1px solid",
             borderColor: "divider",
             borderRadius: 2,
-
-            p: 4,
+            p: 2,
             height: "100%",
             display: "flex",
             flexDirection: "column",
           }}
         >
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">
+            <Typography component="h2" variant="subtitle1" gutterBottom>
               Geographic Origins of Suspicious Traffic
             </Typography>
           </Box>
@@ -234,14 +237,16 @@ export const Dashboard = (props: DashboardProps) => {
             border: "1px solid",
             borderColor: "divider",
             borderRadius: 2,
-            p: 4,
+            p: 2,
             height: "100%",
             display: "flex",
             flexDirection: "column",
           }}
         >
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">Time Series Severity Chart</Typography>
+            <Typography component="h2" variant="subtitle1" gutterBottom>
+              Time Series Severity Chart
+            </Typography>
           </Box>
           <TimeSeriesSeverityChart data={eventTimeline} />
         </Box>
@@ -259,15 +264,16 @@ export const Dashboard = (props: DashboardProps) => {
             border: "1px solid",
             borderColor: "divider",
             borderRadius: 2,
-
-            p: 4,
+            p: 2,
             height: "100%",
             display: "flex",
             flexDirection: "column",
           }}
         >
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">Severity Distribution</Typography>
+            <Typography component="h2" variant="subtitle1" gutterBottom>
+              Severity Distribution
+            </Typography>
           </Box>
           <SeverityPieD3 data={pieData} />
         </Box>

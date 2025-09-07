@@ -93,6 +93,7 @@ export const SOCDialog: React.FC<SOCDialogProps> = ({
               <b>Severity:</b>{" "}
               <Chip
                 label={severity}
+                variant="outlined"
                 color={severityChipColor[severity] || "default"}
               />
             </Typography>
@@ -142,9 +143,6 @@ export const SOCDialog: React.FC<SOCDialogProps> = ({
       <DialogActions>
         <Button onClick={handleClose} color="primary" variant="outlined">
           Close
-        </Button>
-        <Button color="error" variant="contained">
-          Escalate
         </Button>
       </DialogActions>
     </Dialog>

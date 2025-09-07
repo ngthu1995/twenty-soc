@@ -83,6 +83,10 @@ export const SeverityPieD3: React.FC<SeverityPieD3Props> = ({
       .style("fill", "#222");
   }, [data, width, height]);
 
+  if (!data || data.length === 0) {
+    return <div>No data available</div>;
+  }
+
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <svg

@@ -8,20 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import AppTheme from "./theme/AppTheme";
-import {
-  chartsCustomizations,
-  dataGridCustomizations,
-  datePickersCustomizations,
-  treeViewCustomizations,
-} from "./theme";
 import { alpha } from "@mui/material/styles";
-
-const xThemeComponents = {
-  ...chartsCustomizations,
-  ...dataGridCustomizations,
-  ...datePickersCustomizations,
-  ...treeViewCustomizations,
-};
 
 function App(props: { disableCustomTheme?: boolean }) {
   const client = new ApolloClient({
@@ -31,7 +18,7 @@ function App(props: { disableCustomTheme?: boolean }) {
     }),
   });
   return (
-    <AppTheme {...props} themeComponents={xThemeComponents}>
+    <AppTheme {...props}>
       <CssBaseline enableColorScheme />
       <ApolloProvider client={client}>
         <Box sx={{ display: "flex" }}>

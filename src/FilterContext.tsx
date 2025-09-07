@@ -36,12 +36,18 @@ const FilterContext = createContext<FilterContextType | undefined>(undefined);
 export const FilterProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  // Default dates: startDate = 6 months before today, endDate = today
+  const today = new Date();
+  const sixMonthsAgo = new Date(today);
+  sixMonthsAgo.setMonth(today.getMonth() - 6);
+  const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+
   const [activeFilterColumns, setActiveFilterColumns] = useState<FilterState>({
     severity: "",
     eventType: "",
     source: "",
-    startDate: "",
-    endDate: "",
+    startDate: formatDate(sixMonthsAgo),
+    endDate: formatDate(today),
   });
 
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);

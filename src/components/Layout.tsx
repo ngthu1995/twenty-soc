@@ -1,9 +1,7 @@
-import { Box, IconButton, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useState, useMemo } from "react";
 import { FiltersPanel } from "./FiltersPanel";
 import { DataTable } from "./DataTable";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GET_SECURITY_EVENTS, GET_SECURITY_EVENT_SUMMARY } from "../queries";
 import { useQuery } from "@apollo/client/react";
 import summaryMockData from "../assets/Aggregate.json";

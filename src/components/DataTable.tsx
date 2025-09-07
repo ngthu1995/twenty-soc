@@ -7,7 +7,7 @@ import { useFilters } from "../FilterContext";
 import { camelizeKeys, severityColors } from "../utils";
 import { countries } from "../assets/countryCodes";
 import { SOCDialog } from "./Dialog";
-import { faAnglesUp, faInfo, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 

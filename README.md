@@ -65,6 +65,16 @@ pytest backend/test_main.py
 
 The backend uses SQLite (`events.db`) for local development. The database file is excluded from git.
 
+---
+
+## WIP / Next Steps
+
+- Integrate frontend with backend API: Update frontend code to fetch event data from FastAPI endpoints instead of using static mock files.
+- Convert camelized keys in mock data files to camelCase to match backend API responses.
+- Add more attributes to the model
+
+> Note: The backend returns keys in camelCase format. Ensure frontend expects and processes camelCase keys for event objects.
+
 ## Project Structure
 
 ```

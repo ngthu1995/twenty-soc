@@ -17,23 +17,53 @@ A modern Security Operations Center (SOC) dashboard built with React, MUI, D3, a
 
 ## Getting Started
 
-### Install dependencies
+### Frontend Setup
+
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-### Run the app
+Run the app:
 
 ```bash
 npm start
 ```
 
-### Run tests
+Run frontend tests:
 
 ```bash
 npm test
 ```
+
+### Backend Setup (FastAPI)
+
+1. Install Python dependencies:
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+2. Run the FastAPI backend:
+
+```bash
+uvicorn backend.main:app --reload
+```
+
+3. Run backend tests:
+
+```bash
+pytest backend/test_main.py
+```
+
+#### API Endpoints
+
+- `GET /events` - List events
+- `POST /events` - Add a new event
+- `GET /events/count` - Get total event count
+
+The backend uses SQLite (`events.db`) for local development. The database file is excluded from git.
 
 ## Project Structure
 

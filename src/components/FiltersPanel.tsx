@@ -3,6 +3,7 @@ import { Box, TextField, MenuItem, Button } from "@mui/material";
 import { severityOptions } from "../shared/utils";
 import { defaultFilterState, useFilters } from "../context/FilterContext";
 import { countries } from "../assets/countryCodes";
+import { useFilterStore } from "../store/filterStore";
 
 type FitersPanelProps = {
   eventTypeOptions: string[];
@@ -13,7 +14,16 @@ export const FiltersPanel = React.memo(function FiltersPanel({
   eventTypeOptions,
   sourceCountriesOptions,
 }: FitersPanelProps) {
-  const { activeFilterColumns, setActiveFilterColumns } = useFilters();
+  // const { activeFilterColumns, setActiveFilterColumns } = useFilters();
+
+  const activeFilterColumns = useFilterStore(
+    (state) => state.activeFilterColumns
+  );
+  const setActiveFilterColumns = useFilterStore(
+    (state) => state.setActiveFilterColumns
+  );
+  // const filteredEvents = useFilterStore((state) => state.filteredEvents);
+
   // Use all country labels from countryCodes for options
 
   return (
@@ -23,10 +33,10 @@ export const FiltersPanel = React.memo(function FiltersPanel({
         label="Severity"
         value={activeFilterColumns.severity || ""}
         onChange={(e) =>
-          setActiveFilterColumns((prev) => ({
-            ...prev,
+          setActiveFilterColumns({
+            ...activeFilterColumns,
             severity: e.target.value,
-          }))
+          })
         }
         size="small"
         SelectProps={{
@@ -49,10 +59,10 @@ export const FiltersPanel = React.memo(function FiltersPanel({
         label="Event Type"
         value={activeFilterColumns.eventType}
         onChange={(e) =>
-          setActiveFilterColumns((prev) => ({
-            ...prev,
+          setActiveFilterColumns({
+            ...activeFilterColumns,
             eventType: e.target.value,
-          }))
+          })
         }
         size="small"
         SelectProps={{
@@ -75,10 +85,10 @@ export const FiltersPanel = React.memo(function FiltersPanel({
         label="Source Country"
         value={activeFilterColumns.source}
         onChange={(e) =>
-          setActiveFilterColumns((prev) => ({
-            ...prev,
+          setActiveFilterColumns({
+            ...activeFilterColumns,
             source: e.target.value,
-          }))
+          })
         }
         size="small"
         SelectProps={{

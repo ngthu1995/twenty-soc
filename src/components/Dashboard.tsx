@@ -13,6 +13,7 @@ import { SeverityPieD3 } from "./d3Map/PieChart";
 import { defaultFilterState, useFilters } from "../context/FilterContext";
 
 import { StatCard } from "./StatCard";
+import { useFilterStore } from "../store/filterStore";
 
 type SecurityEvent = {
   id: string;
@@ -33,7 +34,13 @@ const convertCountry = (name: string) =>
 export const Dashboard = (props: DashboardProps) => {
   const { loading, error, data } = props;
 
-  const { activeFilterColumns, selectedEvents, filteredEvents } = useFilters();
+  // const { activeFilterColumns, selectedEvents, filteredEvents } = useFilters();
+
+  const activeFilterColumns = useFilterStore(
+    (state) => state.activeFilterColumns
+  );
+  const selectedEvents = useFilterStore((state) => state.selectedEvents);
+  const filteredEvents = useFilterStore((state) => state.filteredEvents);
 
   const geoData = useMemo(() => {
     const selectedEventIds =
@@ -94,7 +101,6 @@ export const Dashboard = (props: DashboardProps) => {
         .map((c: { country: string }) => c.country),
     };
   }, [data, filteredEvents, activeFilterColumns, selectedEvents]);
-  console.log("🚀 ~ Dashboard ~ geoData:", geoData);
 
   const stat = useMemo(() => {
     // Only include events with valid severity values

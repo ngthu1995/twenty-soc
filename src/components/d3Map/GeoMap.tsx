@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useFilters } from "../../context/FilterContext";
 import { useTheme } from "@mui/material/styles";
+import { useFilterStore } from "../../store/filterStore";
 
 interface CountryData {
   country: string;
@@ -25,7 +26,16 @@ export const GeoMap: React.FC<MapProps> = ({
 }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [geoData, setGeoData] = useState<any | null>(null);
-  const { setActiveFilterColumns } = useFilters();
+  // const { setActiveFilterColumns } = useFilters();
+
+  const setActiveFilterColumns = useFilterStore(
+    (state) => state.setActiveFilterColumns
+  );
+
+  const activeFilterColumns = useFilterStore(
+    (state) => state.activeFilterColumns
+  );
+
   const theme = useTheme();
   const width = 520;
   const height = 400;
@@ -89,10 +99,10 @@ export const GeoMap: React.FC<MapProps> = ({
       .on("click", function (event, d: any) {
         const country: string = d.properties.name;
 
-        setActiveFilterColumns((prev) => ({
-          ...prev,
+        setActiveFilterColumns({
+          ...activeFilterColumns,
           source: countryNameMap[String(country)] || country,
-        }));
+        });
       })
       .on("mouseover", function (event, d: any) {
         const record = countriesData.find(

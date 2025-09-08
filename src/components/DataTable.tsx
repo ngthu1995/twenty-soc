@@ -11,6 +11,7 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 import SeverityChip from "../shared/SeverityChip";
+import { useFilterStore } from "../store/filterStore";
 
 type DataTableProps = {
   loading: boolean;
@@ -20,8 +21,15 @@ type DataTableProps = {
 
 export const DataTable = (props: DataTableProps) => {
   const { loading, error, data } = props;
-  const { activeFilterColumns, setSelectedEvents, setFilteredEvents } =
-    useFilters();
+  // const { activeFilterColumns, setSelectedEvents, setFilteredEvents } =
+  //   useFilters();
+
+  const activeFilterColumns = useFilterStore(
+    (state) => state.activeFilterColumns
+  );
+  const setSelectedEvents = useFilterStore((state) => state.setSelectedEvents);
+  const setFilteredEvents = useFilterStore((state) => state.setFilteredEvents);
+
   const { severity, eventType, source, startDate, endDate } =
     activeFilterColumns;
 

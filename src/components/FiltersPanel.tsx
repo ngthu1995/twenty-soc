@@ -127,10 +127,10 @@ export const FiltersPanel = React.memo(function FiltersPanel({
         type="date"
         value={activeFilterColumns.startDate}
         onChange={(e) =>
-          setActiveFilterColumns((prev) => ({
-            ...prev,
+          setActiveFilterColumns({
+            ...activeFilterColumns,
             startDate: e.target.value,
-          }))
+          })
         }
         size="small"
         InputLabelProps={{ shrink: true }}
@@ -142,10 +142,10 @@ export const FiltersPanel = React.memo(function FiltersPanel({
         type="date"
         value={activeFilterColumns.endDate}
         onChange={(e) =>
-          setActiveFilterColumns((prev) => ({
-            ...prev,
+          setActiveFilterColumns({
+            ...activeFilterColumns,
             endDate: e.target.value,
-          }))
+          })
         }
         size="small"
         InputLabelProps={{ shrink: true }}

@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { FilterState } from "../context/FilterContext";
 
 // Convert snake_case string to camelCase
 function toCamel(str: string): string {
@@ -151,4 +152,15 @@ export function getOtherStat(filteredEvents: any[]) {
       value: statusCount,
     },
   ];
+}
+
+export function isDefaultFilterState(
+  active: FilterState,
+  defaultState: FilterState
+): boolean {
+  return Object.keys(defaultState).every(
+    (key) =>
+      active[key as keyof FilterState] ===
+      defaultState[key as keyof FilterState]
+  );
 }

@@ -2,9 +2,9 @@ import { useMemo, useState, useEffect } from "react";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Typography, Box, Tooltip, Chip } from "@mui/material";
-import { useFilters } from "../context/FilterContext";
+import { defaultFilterState, useFilters } from "../context/FilterContext";
 
-import { camelizeKeys, severityColors } from "../shared/utils";
+import { camelizeKeys, isDefaultFilterState } from "../shared/utils";
 import { countries } from "../assets/countryCodes";
 import { SOCDialog } from "./Dialog";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
@@ -76,8 +76,12 @@ export const DataTable = (props: DataTableProps) => {
   const filteredRows = useMemo(() => {
     if (!events) return [];
 
-    if (!severity && !eventType && !source && !startDate && !endDate)
-      return events;
+    const isFiltersDefault = isDefaultFilterState(
+      activeFilterColumns,
+      defaultFilterState
+    );
+
+    if (isFiltersDefault) return events;
     return events.filter((row) => {
       const inSeverity = !severity || row.severity === severity;
       const inType = !eventType || row.eventType === eventType;

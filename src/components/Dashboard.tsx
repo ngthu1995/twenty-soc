@@ -1,16 +1,17 @@
 import { GeoMap } from "./d3Map/GeoMap";
 import { TimeSeriesSeverityChart } from "./d3Map/TimeSeriesSeverityChart";
 import { Grid, Typography, Box } from "@mui/material";
-import { useFilters } from "../context/FilterContext";
 import { useMemo } from "react";
 import {
   aggregateEventsByHour,
   getSeverityPieData,
   getOtherStat,
 } from "../shared/utils";
-import { severityOptions } from "../shared/utils";
+import { severityOptions, isDefaultFilterState } from "../shared/utils";
 
-import { SeverityPieD3, SeverityDatum } from "./d3Map/PieChart";
+import { SeverityPieD3 } from "./d3Map/PieChart";
+import { defaultFilterState, useFilters } from "../context/FilterContext";
+
 import { StatCard } from "./StatCard";
 
 type SecurityEvent = {
@@ -43,7 +44,13 @@ export const Dashboard = (props: DashboardProps) => {
     const selectedCountries = new Set(
       selectedEvents.map((e: any) => convertCountry(e.source))
     );
-    if (!source && !eventType && !severity && !startDate && !endDate) {
+
+    const isFiltersDefault = isDefaultFilterState(
+      activeFilterColumns,
+      defaultFilterState
+    );
+
+    if (isFiltersDefault) {
       const intialContriesData = (data?.topSourceCountries || []).map(
         (c: { country: string; [key: string]: any }) => ({
           ...c,

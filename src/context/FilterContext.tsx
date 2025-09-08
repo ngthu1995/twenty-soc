@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-type FilterState = {
+export type FilterState = {
   severity: string;
   eventType: string;
   source: string;

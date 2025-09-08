@@ -10,6 +10,7 @@ import { SOCDialog } from "./Dialog";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
+import SeverityChip from "../shared/SeverityChip";
 
 type DataTableProps = {
   loading: boolean;
@@ -75,13 +76,7 @@ export const DataTable = (props: DataTableProps) => {
   const filteredRows = useMemo(() => {
     if (!events) return [];
 
-    if (
-      !severity &&
-      !eventType &&
-      !source &&
-      !startDate &&
-      !activeFilterColumns.endDate
-    )
+    if (!severity && !eventType && !source && !startDate && !endDate)
       return events;
     return events.filter((row) => {
       const inSeverity = !severity || row.severity === severity;
@@ -138,34 +133,7 @@ export const DataTable = (props: DataTableProps) => {
       flex: 1,
       minWidth: 80,
       renderCell: (params) => {
-        return (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              height: "100%",
-            }}
-          >
-            <span
-              style={{
-                color: "#fff",
-                padding: "2px 8px",
-                borderRadius: "6px",
-                backgroundColor: severityColors[params.value] || "#999",
-                minWidth: 56,
-                maxWidth: 80,
-                textAlign: "center",
-
-                lineHeight: 1.5,
-                whiteSpace: "nowrap",
-                display: "inline-block",
-              }}
-            >
-              {params.value}
-            </span>
-          </div>
-        );
+        return <SeverityChip value={params.value} />;
       },
     },
     {

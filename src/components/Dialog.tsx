@@ -9,6 +9,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import SeverityChip from "../shared/SeverityChip";
 
 type SOCDialogProps = {
   selectedEvent: any;
@@ -59,16 +60,7 @@ export const SOCDialog: React.FC<SOCDialogProps> = ({
     status,
     details,
   } = selectedEvent || {};
-  // Map severity to allowed MUI Chip color values
-  const severityChipColor: Record<
-    string,
-    "error" | "warning" | "info" | "success" | "default"
-  > = {
-    Critical: "error",
-    High: "warning",
-    Medium: "info",
-    Low: "success",
-  };
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle>Event Details</DialogTitle>
@@ -90,12 +82,7 @@ export const SOCDialog: React.FC<SOCDialogProps> = ({
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <Typography>
-              <b>Severity:</b>{" "}
-              <Chip
-                label={severity}
-                variant="outlined"
-                color={severityChipColor[severity] || "default"}
-              />
+              Severity: <SeverityChip value={severity} />
             </Typography>
             <Typography>
               <b>Status:</b> {status}

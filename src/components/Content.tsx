@@ -7,58 +7,10 @@ import {
   GET_SECURITY_EVENT_SUMMARY,
 } from "../apollo/queries";
 import { useQuery } from "@apollo/client/react";
-import summaryMockData from "../assets/Aggregate.json";
-import eventsMockData from "../assets/SecurityEventsData.json";
 import { MockedProvider } from "@apollo/client/testing/react";
 import { Dashboard } from "./Dashboard";
 import { camelizeKeys } from "../shared/utils";
-
-const mocks = [
-  {
-    request: {
-      query: GET_SECURITY_EVENTS,
-      variables: {},
-    },
-    result: {
-      data: {
-        securityEvents: eventsMockData,
-      },
-    },
-  },
-  {
-    request: {
-      query: GET_SECURITY_EVENTS,
-      variables: {},
-    },
-    result: {
-      data: {
-        securityEvents: eventsMockData,
-      },
-    },
-  },
-  {
-    request: {
-      query: GET_SECURITY_EVENT_SUMMARY,
-      variables: {},
-    },
-    result: {
-      data: {
-        securityEventSummary: summaryMockData,
-      },
-    },
-  },
-  {
-    request: {
-      query: GET_SECURITY_EVENT_SUMMARY,
-      variables: {},
-    },
-    result: {
-      data: {
-        securityEventSummary: summaryMockData,
-      },
-    },
-  },
-];
+import { mocks } from "../apollo/mocks";
 
 export const Content1 = () => {
   const {
@@ -78,6 +30,8 @@ export const Content1 = () => {
 
   const summaryData = useMemo(() => {
     if (!eventSummary) return [];
+
+    // Ideally we should do this transformation in the backend
     return camelizeKeys(eventSummary as any);
   }, [eventSummary]);
 

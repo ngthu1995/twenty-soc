@@ -49,13 +49,13 @@ export const Dashboard = (props: DashboardProps) => {
     );
 
     if (isFiltersDefault) {
-      const intialContriesData = (data?.topSourceCountries || []).map(
-        (c: { country: string; [key: string]: any }) => ({
-          ...c,
-          country: convertCountry(c.country),
-          selected: selectedCountries.has(convertCountry(c.country)),
-        })
-      );
+      const intialContriesData = (
+        data?.securityEventSummary?.topSourceCountries || []
+      ).map((c: { country: string; [key: string]: any }) => ({
+        ...c,
+        country: convertCountry(c.country),
+        selected: selectedCountries.has(convertCountry(c.country)),
+      }));
       return {
         countriesData: intialContriesData,
         activeCountries:
@@ -94,6 +94,7 @@ export const Dashboard = (props: DashboardProps) => {
         .map((c: { country: string }) => c.country),
     };
   }, [data, filteredEvents, activeFilterColumns, selectedEvents]);
+  console.log("🚀 ~ Dashboard ~ geoData:", geoData);
 
   const stat = useMemo(() => {
     // Only include events with valid severity values
@@ -118,7 +119,6 @@ export const Dashboard = (props: DashboardProps) => {
       otherStat: getOtherStat(filteredEvents),
     };
   }, [data, filteredEvents]);
-  console.log("🚀 ~ Dashboard ~ stat:", stat);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;

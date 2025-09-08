@@ -12,7 +12,8 @@ import { Dashboard } from "./Dashboard";
 import { camelizeKeys } from "../shared/utils";
 import { mocks } from "../apollo/mocks";
 
-export const Content1 = () => {
+export const ContentData = () => {
+  // These 2 APIS will support var dates range filter in future
   const {
     loading: eventsLoading,
     error: eventsError,
@@ -94,7 +95,7 @@ export const Content1 = () => {
 export const Content = () => {
   return (
     <MockedProvider mocks={mocks}>
-      <Content1 />
+      <ContentData />
     </MockedProvider>
   );
 };

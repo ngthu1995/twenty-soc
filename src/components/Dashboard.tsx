@@ -34,8 +34,6 @@ export const Dashboard = (props: DashboardProps) => {
   const { loading, error, data } = props;
 
   const { activeFilterColumns, selectedEvents, filteredEvents } = useFilters();
-  const { source, eventType, severity, startDate, endDate } =
-    activeFilterColumns;
 
   const geoData = useMemo(() => {
     const selectedEventIds =
@@ -99,6 +97,8 @@ export const Dashboard = (props: DashboardProps) => {
 
   const stat = useMemo(() => {
     // Only include events with valid severity values
+    // TODO: once the summary API supports filtering, we can remove this client-side filtering, and use data from API directly
+    // we are not using Aggregate data file here, since the current summary is incorrect
     const filteredSecurityEvents = filteredEvents?.filter((e) =>
       severityOptions.includes(e.severity as SecurityEvent["severity"])
     ) as SecurityEvent[];
@@ -118,61 +118,7 @@ export const Dashboard = (props: DashboardProps) => {
       otherStat: getOtherStat(filteredEvents),
     };
   }, [data, filteredEvents]);
-
-  const statData = useMemo(() => {
-    if (filteredEvents.length === 0)
-      return [
-        {
-          title: "Total Users Affected",
-          value: 0,
-        },
-        {
-          title: "Total Events",
-          value: 0,
-        },
-        {
-          title: "Total Countries Affected",
-          value: 0,
-        },
-        {
-          title: "Alert Status",
-          value: 0,
-        },
-      ];
-    const userSet = new Set();
-    const countrySet = new Set();
-    const statusCount: Record<string, number> = {};
-    filteredEvents.forEach((event) => {
-      const e = event as any;
-      const userId = e.userId;
-      const country = e.location?.country;
-      const status = e.status;
-      if (userId) userSet.add(userId);
-      if (country) countrySet.add(country);
-      if (status) {
-        statusCount[status] = (statusCount[status] || 0) + 1;
-      }
-    });
-
-    return [
-      {
-        title: "Total Users Affected",
-        value: userSet.size || 0,
-      },
-      {
-        title: "Total Events",
-        value: filteredEvents.length || 0,
-      },
-      {
-        title: "Total Countries Affected",
-        value: countrySet.size || 0,
-      },
-      {
-        title: "Alert Status",
-        value: statusCount,
-      },
-    ];
-  }, [filteredEvents]);
+  console.log("🚀 ~ Dashboard ~ stat:", stat);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
